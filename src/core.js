@@ -2,21 +2,19 @@
     'use strict';
     if (typeof window === 'object' && typeof window.document === 'object') {
 
-        var version = '0.0.1',
-            isDebug = false,
-            xe = function (options) {
-                if (isDebug) console.log('aw yiss');
-            };
-
-        xe.fn = xe.prototype;
-
-        xe.debug = xe.fn.debug = function(debug) {
-            if (typeof debug === 'undefined') debug = true;
-            isDebug = debug;
-        };
-        xe.controllers = { };
-
-        var wireUp = function (children, parent, ctrl) {
+        var xe = {
+            version: '0.0.1',
+            isDebug: false,
+            controllers: {},
+            init: function(options) {
+                setup(window.document.children, window.document);
+            },
+            debug: function(debug) {
+                if (typeof debug === 'undefined') debug = true;
+                isDebug = debug;
+            }
+        },
+        setup = function (children, parent, ctrl) {
             var segments;
 
             for (var i = 0, iLength = children.length; i < iLength; i++) {
@@ -123,14 +121,14 @@
                 }
 
                 if(children[i].children) {
-                    wireUp(children[i].children, children[i], ctrl);
+                    setup(children[i].children, children[i], ctrl);
                 }
             }
         };
 
+        // when all is loaded, wire up the controllers
         window.onload = function() {
-            // when all is loaded, wire up the controllers
-            wireUp(window.document.children, window.document);
+            xe.init();
         };
 
         // set to global
