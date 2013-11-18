@@ -30,80 +30,96 @@
                                     ctrl = xe.controllers[segments[1]]
                                 }
                                 else if (ctrl) {
+                                    val = ctrl[segments[1]];
+
                                     /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp */
                                     switch(segments[0]) {
                                         /* mouse events */
                                         case 'click':
-                                            children[i].onclick = ctrl[segments[1]];
+                                            children[i].onclick = val;
                                         break;
                                         case 'dblclick':
-                                            children[i].ondblclick = ctrl[segments[1]];
+                                            children[i].ondblclick = val;
                                         break;
                                         case 'mousedown':
-                                            children[i].onmousedown = ctrl[segments[1]];
+                                            children[i].onmousedown = val;
                                         break;
                                         case 'mousemove':
-                                            children[i].onmousemove = ctrl[segments[1]];
+                                            children[i].onmousemove = val;
                                         break;
                                         case 'mouseover':
-                                            children[i].onmouseover = ctrl[segments[1]];
+                                            children[i].onmouseover = val;
                                         break;
                                         case 'mouseout':
-                                            children[i].onmouseout = ctrl[segments[1]];
+                                            children[i].onmouseout = val;
                                         break;
                                         case 'mouseup':
-                                            children[i].mouseup = ctrl[segments[1]];
+                                            children[i].mouseup = val;
                                         break;
 
                                         /* keyboard events */
                                         case 'keydown':
-                                            children[i].onkeydown = ctrl[segments[1]];
+                                            children[i].onkeydown = val;
                                         break;
                                         case 'keypress':
-                                            children[i].onkeypress = ctrl[segments[1]];
+                                            children[i].onkeypress = val;
                                         break;
                                         case 'keyup':
-                                            children[i].onkeyup = ctrl[segments[1]];
+                                            children[i].onkeyup = val;
                                         break;
 
                                         /* frame/object events */
                                         case 'abort':
-                                            children[i].abort = ctrl[segments[1]];
+                                            children[i].abort = val;
                                         break;
                                         case 'error':
-                                            children[i].onerror = ctrl[segments[1]];
+                                            children[i].onerror = val;
                                         break;
                                         case 'load':
-                                            children[i].onload = ctrl[segments[1]];
+                                            children[i].onload = val;
                                         break;
                                         case 'resize':
-                                            children[i].onresize = ctrl[segments[1]];
+                                            children[i].onresize = val;
                                         break;
                                         case 'scroll':
-                                            children[i].onscroll = ctrl[segments[1]];
+                                            children[i].onscroll = val;
                                         break;
                                         case 'unload':
-                                            children[i].onunload = ctrl[segments[1]];
+                                            children[i].onunload = val;
                                         break;
 
                                         /* form events */
                                         case 'blur':
-                                            children[i].onblur = ctrl[segments[1]];
+                                            children[i].onblur = val;
                                         break;
                                         case 'change':
-                                            children[i].onchange = ctrl[segments[1]];
+                                            children[i].onchange = val;
                                         break;
                                         case 'focus':
-                                            children[i].onfocus = ctrl[segments[1]];
+                                            children[i].onfocus = val;
                                         break;
                                         case 'reset':
-                                            children[i].onreset = ctrl[segments[1]];
+                                            children[i].onreset = val;
                                         break;
                                         case 'select':
-                                            children[i].onselect = ctrl[segments[1]];
+                                            children[i].onselect = val;
                                         break;
                                         case 'submit':
-                                            children[i].onsubmit = ctrl[segments[1]];
+                                            children[i].onsubmit = val;
+                                        break;
+
+                                        /* model binding */
+                                        case 'model':
+                                            switch(children[i].tagName) {
+                                                case 'INPUT':
+                                                case 'SELECT':
+                                                case 'OPTION':
+                                                    children[i].value = val;
+                                                    break;
+                                                default:
+                                                    children[i].innerHTML = val;
+                                                    break;
+                                            }
                                         break;
 
                                         /* invalid */
