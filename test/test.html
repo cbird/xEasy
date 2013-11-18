@@ -1,13 +1,40 @@
 <html>
 <head>
     <title>Test</title>
+    <style>
+        .test-area {
+            border: solid 1px #888;
+            background: #efefef;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+            .test-area h4 {
+                margin-top: 0;
+            }
+        .home {
+            
+        }
+        .user {
+            
+        }
+    </style>
 </head>
 <body>
-    <div data-xe="ctrl.home">
-        <button data-xe="click.handleClick">HandleClick</button>
+    <div class="test-area home" data-xe="ctrl.home">
+        <h4>Home controller</h4>
+        <div>
+            <button data-xe="click.handleClick">HandleClick</button>
+        </div>
     </div>
-    <div data-xe="ctrl.user">
-        <button xe="click.login">Login</button>
+    <div class="test-area user" data-xe="ctrl.user">
+        <h4>User controller</h4>
+        <div>
+            <input type="text" placeholder="blur" data-xe="blur.handleBlur">
+            <input type="text" placeholder="focus" data-xe="focus.handleFocus">
+        </div>
+        <div>
+            <button xe="click.login">Login</button>
+        </div>
         <div>
             <button data-xe="click.logout">Logout</button>
         </div>

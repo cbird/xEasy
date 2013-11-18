@@ -1,14 +1,20 @@
 xe.controllers.home = {
     handleClick: function() {
-        alert('handleClick clicked!');
+        console.log('handleClick clicked!');
     }
 };
 
 xe.controllers.user = {
     login: function() {
-        alert('login clicked!');
+        console.log('login clicked!');
     },
     logout: function() {
-        alert('logout clicked!');
+        console.log('logout clicked!');
+    },
+    handleBlur: function() {
+        console.log('blurred!');
+    },
+    handleFocus: function() {
+        console.log('focused!');
     }
 };
