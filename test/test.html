@@ -12,10 +12,10 @@
                 margin-top: 0;
             }
         .home {
-            
+
         }
         .user {
-            
+
         }
     </style>
 </head>
@@ -26,7 +26,7 @@
             <button data-xe="click.handleClick">HandleClick</button>
         </div>
         <div>
-            <input type="text" placeholder="write something" data-xe="model.testData">
+            <input type="text" placeholder="write something" data-xe="model.testData;keyup.handleKeyup">
         </div>
         <div>
             <b data-xe="model.testData"></b> <input type="text" placeholder="" data-xe="model.testData">
@@ -45,6 +45,7 @@
             <button data-xe="click.logout">Logout</button>
         </div>
     </div>
+    <script src="../src/plugins.js"></script>
     <script src="../src/core.js"></script>
     <script src="controllers.js"></script>
 </body>
