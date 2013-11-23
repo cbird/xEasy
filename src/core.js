@@ -132,7 +132,7 @@
                                                 xe.listeners[ref].push(children[i]);
 
                                                 // bind changes in DOM to controller
-                                                children[i].addEventListener('keyup', function(event) {
+                                                children[i].addEventListener('input', function(event) {
                                                     ctrl[ref] = event.target.value;
                                                 }, false);
 
