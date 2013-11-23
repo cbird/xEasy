@@ -1,5 +1,5 @@
 xe.controllers.home = home = {
-    testData: 'from ctrl',
+    testData: 'test',
     testBool: true,
     handleClick: function() {
         console.log('handleClick clicked!', home.testData);

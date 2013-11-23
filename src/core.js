@@ -142,6 +142,10 @@
                                                     children[i].addEventListener('change', function(event) {
                                                         ctrl[ref] = event.target.checked;
                                                     }, false);
+                                                } else if(children[i].tagName === 'SELECT') {
+                                                    children[i].addEventListener('change', function(event) {
+                                                        ctrl[ref] = event.target.value;
+                                                    }, false);
                                                 } else {
                                                     children[i].addEventListener('input', function(event) {
                                                         ctrl[ref] = event.target.value;
