@@ -15,6 +15,22 @@
                 isDebug = debug;
             }
         },
+        bindElmVal = function (elm, val) {
+            switch(elm.tagName) {
+                case 'INPUT':
+                    if(elm.type === 'checkbox') {
+                        elm.checked = val;
+                        break;
+                    }
+                case 'SELECT':
+                case 'OPTION':
+                    elm.value = val;
+                    break;
+                default:
+                    elm.innerHTML = val;
+                    break;
+            }
+        },
         setup = function (children, parent, ctrl) {
             var segments, handlers, val;
 
@@ -114,17 +130,7 @@
 
                                             /* model binding */
                                             case 'model':
-
-                                                switch(children[i].tagName) {
-                                                    case 'INPUT':
-                                                    case 'SELECT':
-                                                    case 'OPTION':
-                                                        children[i].value = val;
-                                                        break;
-                                                    default:
-                                                        children[i].innerHTML = val;
-                                                        break;
-                                                }
+                                                bindElmVal(children[i], val);
 
                                                 var ref = segments[1];
 
@@ -132,25 +138,22 @@
                                                 xe.listeners[ref].push(children[i]);
 
                                                 // bind changes in DOM to controller
-                                                children[i].addEventListener('input', function(event) {
-                                                    ctrl[ref] = event.target.value;
-                                                }, false);
+                                                if(children[i].type === 'checkbox') {
+                                                    children[i].addEventListener('change', function(event) {
+                                                        ctrl[ref] = event.target.checked;
+                                                    }, false);
+                                                } else {
+                                                    children[i].addEventListener('input', function(event) {
+                                                        ctrl[ref] = event.target.value;
+                                                    }, false);
+                                                }
 
                                                 // binds changes in controller to DOM
-                                                ctrl.watch(ref, function(id, oldval, newval) {
+                                                ctrl.watch(ref, function(id, oldVal, newVal) {
                                                     for(var key in xe.listeners){
                                                         if(ref === key) {
                                                             for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
-                                                                switch(xe.listeners[key][i].tagName) {
-                                                                    case 'INPUT':
-                                                                    case 'SELECT':
-                                                                    case 'OPTION':
-                                                                        xe.listeners[key][i].value = newval;
-                                                                        break;
-                                                                    default:
-                                                                        xe.listeners[key][i].innerHTML = newval;
-                                                                        break;
-                                                                }
+                                                                bindElmVal(xe.listeners[key][i], newVal);
                                                             }
                                                         }
                                                     }
