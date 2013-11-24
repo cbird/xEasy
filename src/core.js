@@ -3,7 +3,82 @@
     if (typeof window === 'object' && typeof window.document === 'object') {
 
         var xe = {
-            listeners: {},
+            binding: {
+                entities: {},
+                set: function(elm, ctrl, modelName, actions) {
+                    var name = ctrl.name + '-' + modelName;
+                    xe.binding.entities[name] = xe.binding.entities[name] ? xe.binding.entities[name] : [];
+
+                    // update existing entity
+                    for (var i = 0, length = xe.binding.entities[name].length; i < length; i++){
+                        if(xe.binding.entities[name][i].elm === elm) {
+                            // update action
+                            for(var key in xe.binding.entities[name][i].actions) {
+                                if(actions[key]) {
+                                    xe.binding.entities[name][i].actions[key] = actions[key];
+                                }
+                            }
+                            // add new action
+                            for(var key in actions) {
+                                if(!xe.binding.entities[name][i].actions[key]) {
+                                    xe.binding.entities[name][i].actions[key] = actions[key];
+                                }
+                            }
+                            return;
+                        }
+                    }
+
+                    // bind changes in DOM to controller
+                    if(elm.type === 'checkbox') {
+                        elmFunctions.addEventListener(elm, 'change', function(event) {
+                            ctrl[modelName] = event.target.checked;
+                        });
+                    } else if(elm.tagName === 'SELECT') {
+                        elmFunctions.addEventListener(elm, 'change', function(event) {
+                            ctrl[modelName] = event.target.value;
+                        });
+                    } else {
+                        elmFunctions.addEventListener(elm, 'input', function(event) {
+                            ctrl[modelName] = event.target.value;
+                        });
+                    }
+
+                    // binds changes in controller to DOM
+                    ctrl.watch(modelName, function(id, oldVal, newVal) {
+                        for(var key in xe.binding.entities){
+                            if(name === key) {
+                                for (var i = 0, length = xe.binding.entities[key].length; i < length; i++) {
+                                    var option;
+
+                                    // action: data binding
+                                    if(xe.binding.entities[key][i].actions.hasOwnProperty('model')) {
+                                        option = xe.binding.entities[key][i].actions['model'];
+                                        elmFunctions.setValue(xe.binding.entities[key][i].elm, newVal, option);
+                                    }
+
+                                    // action: visibility of element
+                                    if(xe.binding.entities[key][i].actions.hasOwnProperty('visibility')) {
+                                        option = xe.binding.entities[key][i].actions['visibility'];
+                                        var hide = (option === 'show' && newVal === false) || (option === 'hide' && newVal === true);
+
+                                        elmFunctions.css(xe.binding.entities[key][i].elm, 'display', hide ? 'none' : '');
+                                    }
+
+                                }
+                            }
+                        }
+                    });
+
+                    // add new entity
+                    xe.binding.entities[name].push({
+                        elm: elm,
+                        actions: actions
+                    });
+                },
+                remove: function(name) {
+                    delete xe.binding.entities[name];
+                }
+            },
             ctrl: {},
             init: function(options) {
                 setup(window.document.children, window.document);
@@ -29,6 +104,9 @@
                         elm.innerHTML = val;
                         break;
                 }
+            },
+            css: function(elm, name, val) {
+                elm.style[name] = val ? val : '';
             },
             addEventListener: function(elm, event, callback) {
                 if (elm.addEventListener) {
@@ -151,46 +229,27 @@
                                             /* model binding */
                                             case 'model':
                                                 var cache = {
-                                                    prop: segments[1],
-                                                    option: segments[2],
-                                                    listener: (ctrl.name + '-' + segments[1])
+                                                    modelName: segments[1],
+                                                    option: segments[2]
                                                 };
 
                                                 // set the initial value from the controller
                                                 elmFunctions.setValue(children[i], val, cache.option);
 
-                                                // setup listeners
-                                                xe.listeners[cache.listener] = xe.listeners[cache.listener] ? xe.listeners[cache.listener] : [];
-                                                xe.listeners[cache.listener].push({
-                                                    elm: children[i],
-                                                    target: cache.option
-                                                });
+                                                // set binding
+                                                xe.binding.set(children[i], ctrl, cache.modelName, { model: cache.option });
+                                            break;
 
-                                                // bind changes in DOM to controller
-                                                if(children[i].type === 'checkbox') {
-                                                    elmFunctions.addEventListener(children[i], 'change', function(event) {
-                                                        ctrl[cache.prop] = event.target.checked;
-                                                    });
-                                                } else if(children[i].tagName === 'SELECT') {
-                                                    elmFunctions.addEventListener(children[i], 'change', function(event) {
-                                                        ctrl[cache.prop] = event.target.value;
-                                                    });
-                                                } else {
-                                                    elmFunctions.addEventListener(children[i], 'input', function(event) {
-                                                        ctrl[cache.prop] = event.target.value;
-                                                    });
-                                                }
-
-                                                // binds changes in controller to DOM
-                                                ctrl.watch(cache.prop, function(id, oldVal, newVal) {
-                                                    for(var key in xe.listeners){
-                                                        if(cache.listener === key) {
-                                                            for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
-                                                                elmFunctions.setValue(xe.listeners[key][i].elm, newVal, xe.listeners[key][i].target);
-                                                            }
-                                                        }
-                                                    }
-                                                });
+                                            /* css manipulation */
+                                            case 'show':
+                                            case 'hide':
+                                                // set binding
+                                                xe.binding.set(
+                                                    children[i],
+                                                    ctrl,
+                                                    segments[1],
+                                                    { visibility: segments[0] }
+                                                );
                                             break;
 
                                             /* invalid */
