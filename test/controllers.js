@@ -14,6 +14,7 @@
     };
 
     xe.ctrl.user = {
+        testData: 'test2',
         login: function() {
             console.log('login clicked!');
         },

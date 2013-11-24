@@ -61,6 +61,7 @@
                                 if(segments.length > 1) { // invalid if less than 2 segments
                                     if(segments[0] === 'ctrl') {
                                         ctrl = xe.ctrl[segments[1]]
+                                        ctrl.name = segments[1];
                                     }
                                     else if (ctrl) {
                                         val = ctrl[segments[1]];
@@ -158,17 +159,17 @@
                                             /* model binding */
                                             case 'model':
                                                 var cache = {
-                                                    ctrl: segments[0],
                                                     prop: segments[1],
-                                                    option: segments[2]
+                                                    option: segments[2],
+                                                    listener: (ctrl.name + '-' + segments[1])
                                                 };
 
                                                 // set the initial value from the controller
                                                 elmFunctions.setValue(children[i], val, cache.option);
 
                                                 // setup listeners
-                                                xe.listeners[cache.prop] = xe.listeners[cache.prop] ? xe.listeners[cache.prop] : [];
-                                                xe.listeners[cache.prop].push({
+                                                xe.listeners[cache.listener] = xe.listeners[cache.listener] ? xe.listeners[cache.listener] : [];
+                                                xe.listeners[cache.listener].push({
                                                     elm: children[i],
                                                     target: cache.option
                                                 });
@@ -191,7 +192,7 @@
                                                 // binds changes in controller to DOM
                                                 ctrl.watch(cache.prop, function(id, oldVal, newVal) {
                                                     for(var key in xe.listeners){
-                                                        if(cache.prop === key) {
+                                                        if(cache.listener === key) {
                                                             for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
                                                                 elmFunctions.setValue(xe.listeners[key][i].elm, newVal, xe.listeners[key][i].target);
                                                             }
