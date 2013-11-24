@@ -15,15 +15,19 @@
                 isDebug = debug;
             }
         },
-        bindElmVal = function (elm, val) {
+        bindElmVal = function (elm, val, bindTo) {
             switch(elm.tagName) {
                 case 'INPUT':
                     if(elm.type === 'checkbox') {
                         elm.checked = val;
                         break;
                     }
-                case 'SELECT':
                 case 'OPTION':
+                    if(bindTo && bindTo === 'text') {
+                        elm.innerHTML = val;
+                        break;
+                    }
+                case 'SELECT':
                     elm.value = val;
                     break;
                 default:
@@ -32,7 +36,7 @@
             }
         },
         setup = function (children, parent, ctrl) {
-            var segments, handlers, val;
+            var segments, handlers, val, option;
 
             for (var i = 0, iLength = children.length; i < iLength; i++) {
                 if(children[i].attributes) {
@@ -51,6 +55,7 @@
                                     }
                                     else if (ctrl) {
                                         val = ctrl[segments[1]];
+                                        option = segments[2];
 
                                         /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp */
                                         switch(segments[0]) {
@@ -130,7 +135,7 @@
 
                                             /* model binding */
                                             case 'model':
-                                                bindElmVal(children[i], val);
+                                                bindElmVal(children[i], val, option);
 
                                                 var ref = segments[1];
 
@@ -157,7 +162,7 @@
                                                     for(var key in xe.listeners){
                                                         if(ref === key) {
                                                             for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
-                                                                bindElmVal(xe.listeners[key][i], newVal);
+                                                                bindElmVal(xe.listeners[key][i], newVal, option);
                                                             }
                                                         }
                                                     }
