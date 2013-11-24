@@ -117,7 +117,7 @@
             }
         },
         setup = function (children, parent, ctrl) {
-            var segments, handlers, val;
+            var segments, handlers, action, val;
 
             for (var i = 0, iLength = children.length; i < iLength; i++) {
                 if(children[i].attributes) {
@@ -135,96 +135,9 @@
                                     }
                                     else if (ctrl) {
                                         val = ctrl[segments[1]];
+                                        action = segments[0].toLowerCase();
 
-                                        /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp */
-                                        switch(segments[0]) {
-                                            /* mouse events */
-                                            case 'click':
-                                                children[i].onclick = val;
-                                            break;
-                                            case 'dblclick':
-                                                children[i].ondblclick = val;
-                                            break;
-                                            case 'mousedown':
-                                                children[i].onmousedown = val;
-                                            break;
-                                            case 'mousemove':
-                                                children[i].onmousemove = val;
-                                            break;
-                                            case 'mouseover':
-                                                children[i].onmouseover = val;
-                                            break;
-                                            case 'mouseout':
-                                                children[i].onmouseout = val;
-                                            break;
-                                            case 'mouseup':
-                                                children[i].mouseup = val;
-                                            break;
-
-                                            /* keyboard events */
-                                            case 'keydown':
-                                                children[i].onkeydown = val;
-                                            break;
-                                            case 'keypress':
-                                                children[i].onkeypress = val;
-                                            break;
-                                            case 'keyup':
-                                                children[i].onkeyup = val;
-                                            break;
-
-                                            /* frame/object events */
-                                            case 'abort':
-                                                children[i].abort = val;
-                                            break;
-                                            case 'error':
-                                                children[i].onerror = val;
-                                            break;
-                                            case 'load':
-                                                children[i].onload = val;
-                                            break;
-                                            case 'resize':
-                                                children[i].onresize = val;
-                                            break;
-                                            case 'scroll':
-                                                children[i].onscroll = val;
-                                            break;
-                                            case 'unload':
-                                                children[i].onunload = val;
-                                            break;
-
-                                            /* form events */
-                                            case 'blur':
-                                                children[i].onblur = val;
-                                            break;
-                                            case 'change':
-                                                children[i].onchange = val;
-                                            break;
-                                            case 'focus':
-                                                children[i].onfocus = val;
-                                            break;
-                                            case 'reset':
-                                                children[i].onreset = val;
-                                            break;
-                                            case 'select':
-                                                children[i].onselect = val;
-                                            break;
-                                            case 'submit':
-                                                children[i].onsubmit = val;
-                                            break;
-
-                                            /* touch events */
-                                            case 'touchstart':
-                                                if(children[i].ontouchstart) children[i].ontouchstart = val;
-                                            break;
-                                            case 'touchmove':
-                                                if(children[i].ontouchmove) children[i].ontouchmove = val;
-                                            break;
-                                            case 'touchend':
-                                                if(children[i].ontouchend) children[i].ontouchend = val;
-                                            break;
-                                            case 'touchcancel':
-                                                if(children[i].ontouchcancel) children[i].ontouchcancel = val;
-                                            break;
+                                        switch(action) {
 
                                             /* model binding */
                                             case 'model':
@@ -252,10 +165,11 @@
                                                 );
                                             break;
 
-                                            /* invalid */
+                                            /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp, and some touch events */
                                             default:
-                                                throw 'invalid handler ' + segments[0];
+                                                children[i]['on' + action] = val;
                                             break;
+
                                         }
                                     }
                                     else {
