@@ -4,15 +4,10 @@
 
         var xe = {
             version: '0.0.1',
-            isDebug: false,
             listeners: {},
             ctrl: {},
             init: function(options) {
                 setup(window.document.children, window.document);
-            },
-            debug: function(debug) {
-                if (typeof debug === 'undefined') debug = true;
-                isDebug = debug;
             }
         },
         elmFunctions = {
@@ -51,8 +46,6 @@
                 if(children[i].attributes) {
                     for (var j = 0, jLength = children[i].attributes.length; j < jLength; j++) {
                         if(children[i].attributes[j].name.indexOf('xe') === 0 || children[i].attributes[j].name.indexOf('data-xe') === 0) {
-                            if(xe.isDebug) console.log(children[i].attributes[j].name, children[i].attributes[j].value);
-
                             handlers = children[i].attributes[j].value.split(';');
 
                             for(var k = 0, kLength = handlers.length; k < kLength; k++) {
