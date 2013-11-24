@@ -3,7 +3,6 @@
     if (typeof window === 'object' && typeof window.document === 'object') {
 
         var xe = {
-            version: '0.0.1',
             listeners: {},
             ctrl: {},
             init: function(options) {
