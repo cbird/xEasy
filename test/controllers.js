@@ -1,16 +1,16 @@
 (function(){
-    var home = xe.controllers.home = {
+    xe.ctrl.home = {
         testData: 'test',
         testBool: true,
         handleClick: function() {
-            console.log('handleClick clicked!', home.testData);
+            console.log('handleClick clicked!', xe.ctrl.home.testData);
         },
         handleKeyup: function() {
-            console.log('handleClick keyup!', home.testData);
+            console.log('handleClick keyup!', xe.ctrl.home.testData);
         }
     };
 
-    xe.controllers.user = {
+    xe.ctrl.user = {
         login: function() {
             console.log('login clicked!');
         },

@@ -7,24 +7,27 @@
      * By Eli Grey, http://eligrey.com
      * Public Domain.
      * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+     *
+     * Modified by Carl Ripa, setter is now working as expected
      */
     if (!Object.prototype.watch) {
-        Object.defineProperty(Object.prototype, "watch", {
+        Object.defineProperty(Object.prototype, 'watch', {
             enumerable: false,
             configurable: true,
             writable: false,
             value: function (prop, handler) {
-                var oldval = this[prop],
-                    newval = oldval,
+                var actual = this[prop],
+                    old = actual,
                     getter = function () {
-                        return newval;
+                        return actual;
                     },
                     setter = function (val) {
-                        oldval = newval;
-                        return newval = handler.call(this, prop, oldval, val);
+                        old = actual;
+                        actual = val;
+                        return handler.call(this, prop, old, val);
                     };
 
-                if (delete this[prop]) { // can't watch constants
+                if (delete this[prop]) {
                     Object.defineProperty(this, prop, {
                         get: getter,
                         set: setter,
@@ -36,13 +39,13 @@
         });
     }
     if (!Object.prototype.unwatch) {
-        Object.defineProperty(Object.prototype, "unwatch", {
+        Object.defineProperty(Object.prototype, 'unwatch', {
             enumerable: false,
             configurable: true,
             writable: false,
             value: function (prop) {
                 var val = this[prop];
-                delete this[prop]; // remove accessors
+                delete this[prop];
                 this[prop] = val;
             }
         });

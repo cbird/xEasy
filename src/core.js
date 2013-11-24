@@ -6,7 +6,7 @@
             version: '0.0.1',
             isDebug: false,
             listeners: {},
-            controllers: {},
+            ctrl: {},
             init: function(options) {
                 setup(window.document.children, window.document);
             },
@@ -15,7 +15,7 @@
                 isDebug = debug;
             }
         },
-        bindElmVal = function (elm, val, bindTo) {
+        setElmVal = function (elm, val, target) {
             switch(elm.tagName) {
                 case 'INPUT':
                     if(elm.type === 'checkbox') {
@@ -23,9 +23,9 @@
                         break;
                     }
                 case 'OPTION':
-                    if(bindTo && bindTo === 'text') {
+                    if(target && (target === 'text' || target === 'both')) {
                         elm.innerHTML = val;
-                        break;
+                        if(target === 'text') break;
                     }
                 case 'SELECT':
                     elm.value = val;
@@ -36,7 +36,7 @@
             }
         },
         setup = function (children, parent, ctrl) {
-            var segments, handlers, val, option;
+            var segments, handlers, val;
 
             for (var i = 0, iLength = children.length; i < iLength; i++) {
                 if(children[i].attributes) {
@@ -51,11 +51,10 @@
 
                                 if(segments.length > 1) { // invalid if less than 2 segments
                                     if(segments[0] === 'ctrl') {
-                                        ctrl = xe.controllers[segments[1]]
+                                        ctrl = xe.ctrl[segments[1]]
                                     }
                                     else if (ctrl) {
                                         val = ctrl[segments[1]];
-                                        option = segments[2];
 
                                         /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp */
                                         switch(segments[0]) {
@@ -135,39 +134,47 @@
 
                                             /* model binding */
                                             case 'model':
-                                                bindElmVal(children[i], val, option);
+                                                var cache = {
+                                                    ctrl: segments[0],
+                                                    prop: segments[1],
+                                                    option: segments[2]
+                                                };
 
-                                                var ref = segments[1];
+                                                // set the initial value from the controller
+                                                setElmVal(children[i], val, cache.option);
 
-                                                xe.listeners[ref] = xe.listeners[ref] ? xe.listeners[ref] : [];
-                                                xe.listeners[ref].push(children[i]);
+                                                // setup listeners
+                                                xe.listeners[cache.prop] = xe.listeners[cache.prop] ? xe.listeners[cache.prop] : [];
+                                                xe.listeners[cache.prop].push({
+                                                    elm: children[i],
+                                                    target: cache.option
+                                                });
 
                                                 // bind changes in DOM to controller
                                                 if(children[i].type === 'checkbox') {
                                                     children[i].addEventListener('change', function(event) {
-                                                        ctrl[ref] = event.target.checked;
+                                                        ctrl[cache.prop] = event.target.checked;
                                                     }, false);
                                                 } else if(children[i].tagName === 'SELECT') {
                                                     children[i].addEventListener('change', function(event) {
-                                                        ctrl[ref] = event.target.value;
+                                                        ctrl[cache.prop] = event.target.value;
                                                     }, false);
                                                 } else {
                                                     children[i].addEventListener('input', function(event) {
-                                                        ctrl[ref] = event.target.value;
+                                                        ctrl[cache.prop] = event.target.value;
                                                     }, false);
                                                 }
 
                                                 // binds changes in controller to DOM
-                                                ctrl.watch(ref, function(id, oldVal, newVal) {
+                                                ctrl.watch(cache.prop, function(id, oldVal, newVal) {
                                                     for(var key in xe.listeners){
-                                                        if(ref === key) {
+                                                        if(cache.prop === key) {
                                                             for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
-                                                                bindElmVal(xe.listeners[key][i], newVal, option);
+                                                                setElmVal(xe.listeners[key][i].elm, newVal, xe.listeners[key][i].target);
                                                             }
                                                         }
                                                     }
                                                 });
-
                                             break;
 
                                             /* invalid */
