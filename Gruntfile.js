@@ -47,7 +47,8 @@ module.exports = function(grunt) {
                 browser: true,
                 globals: {
                     xe: true,
-                    console: true
+                    console: true,
+                    alert: true
                 }
             },
             gruntfile: {
