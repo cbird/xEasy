@@ -7,6 +7,9 @@
         },
         handleKeyup: function() {
             console.log('handleClick keyup!', xe.ctrl.home.testData);
+        },
+        handleTouch: function() {
+            alert('cant touch this!');
         }
     };
 

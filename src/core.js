@@ -141,6 +141,20 @@
                                                 children[i].onsubmit = val;
                                             break;
 
+                                            /* touch events */
+                                            case 'touchstart':
+                                                if(children[i].ontouchstart) children[i].ontouchstart = val;
+                                            break;
+                                            case 'touchmove':
+                                                if(children[i].ontouchmove) children[i].ontouchmove = val;
+                                            break;
+                                            case 'touchend':
+                                                if(children[i].ontouchend) children[i].ontouchend = val;
+                                            break;
+                                            case 'touchcancel':
+                                                if(children[i].ontouchcancel) children[i].ontouchcancel = val;
+                                            break;
+
                                             /* model binding */
                                             case 'model':
                                                 var cache = {
