@@ -15,24 +15,33 @@
                 isDebug = debug;
             }
         },
-        setElmVal = function (elm, val, target) {
-            switch(elm.tagName) {
-                case 'INPUT':
-                    if(elm.type === 'checkbox') {
-                        elm.checked = val;
+        elmFunctions = {
+            setValue: function (elm, val, target) {
+                switch(elm.tagName) {
+                    case 'INPUT':
+                        if(elm.type === 'checkbox') {
+                            elm.checked = val;
+                            break;
+                        }
+                    case 'OPTION':
+                        if(target && (target === 'text' || target === 'both')) {
+                            elm.innerHTML = val;
+                            if(target === 'text') break;
+                        }
+                    case 'SELECT':
+                        elm.value = val;
                         break;
-                    }
-                case 'OPTION':
-                    if(target && (target === 'text' || target === 'both')) {
+                    default:
                         elm.innerHTML = val;
-                        if(target === 'text') break;
-                    }
-                case 'SELECT':
-                    elm.value = val;
-                    break;
-                default:
-                    elm.innerHTML = val;
-                    break;
+                        break;
+                }
+            },
+            addEventListener: function(elm, event, callback) {
+                if (elm.addEventListener) {
+                    elm.addEventListener(event, callback, false);
+                } else if (elm.attachEvent) {
+                    elm.attachEvent(event === 'input' ? 'onpropertychange': event, callback);
+                }
             }
         },
         setup = function (children, parent, ctrl) {
@@ -141,7 +150,7 @@
                                                 };
 
                                                 // set the initial value from the controller
-                                                setElmVal(children[i], val, cache.option);
+                                                elmFunctions.setValue(children[i], val, cache.option);
 
                                                 // setup listeners
                                                 xe.listeners[cache.prop] = xe.listeners[cache.prop] ? xe.listeners[cache.prop] : [];
@@ -152,17 +161,17 @@
 
                                                 // bind changes in DOM to controller
                                                 if(children[i].type === 'checkbox') {
-                                                    children[i].addEventListener('change', function(event) {
+                                                    elmFunctions.addEventListener(children[i], 'change', function(event) {
                                                         ctrl[cache.prop] = event.target.checked;
-                                                    }, false);
+                                                    });
                                                 } else if(children[i].tagName === 'SELECT') {
-                                                    children[i].addEventListener('change', function(event) {
+                                                    elmFunctions.addEventListener(children[i], 'change', function(event) {
                                                         ctrl[cache.prop] = event.target.value;
-                                                    }, false);
+                                                    });
                                                 } else {
-                                                    children[i].addEventListener('input', function(event) {
+                                                    elmFunctions.addEventListener(children[i], 'input', function(event) {
                                                         ctrl[cache.prop] = event.target.value;
-                                                    }, false);
+                                                    });
                                                 }
 
                                                 // binds changes in controller to DOM
@@ -170,7 +179,7 @@
                                                     for(var key in xe.listeners){
                                                         if(cache.prop === key) {
                                                             for (var i = 0, length = xe.listeners[key].length; i < length; i++) {
-                                                                setElmVal(xe.listeners[key][i].elm, newVal, xe.listeners[key][i].target);
+                                                                elmFunctions.setValue(xe.listeners[key][i].elm, newVal, xe.listeners[key][i].target);
                                                             }
                                                         }
                                                     }
