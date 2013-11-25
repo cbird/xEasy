@@ -3,28 +3,33 @@
 
     xe.functions = {
         element: {
-            setValue: function (elm, val, target) {
+            setData: function (elm, val, target) {
                 switch(elm.tagName) {
                     case 'INPUT':
                         if(elm.type === 'checkbox') {
-                            elm.checked = val;
+                            if(elm.checked !== val) elm.checked = val;
                             break;
                         }
                     case 'OPTION':
                         if(target && (target === 'text' || target === 'both')) {
-                            elm.innerHTML = val;
+                            if(elm.innerHTML !== val) elm.innerHTML = val;
                             if(target === 'text') break;
                         }
                     case 'SELECT':
-                        elm.value = val;
+                        if(elm.value !== val) elm.value = val;
                         break;
                     default:
-                        elm.innerHTML = val;
+                        if(elm.innerHTML !== val) elm.innerHTML = val;
                         break;
                 }
             },
-            css: function(elm, name, val) {
+            setStyle: function(elm, name, val) {
                 elm.style[name] = val ? val : '';
+            },
+            setCss: function(elm, css) {
+                for(var name in css) {
+                    elm.style[name] = css[name];
+                }
             },
             addEventListener: function(elm, event, callback) {
                 if (elm.addEventListener) {

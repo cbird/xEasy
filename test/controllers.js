@@ -2,6 +2,10 @@
     xe.ctrl.home = {
         testData: 'test',
         testBool: true,
+        cssObject: {
+            background: '#fff',
+            color: '#888'
+        },
         handleClick: function() {
             console.log('handleClick clicked!', xe.ctrl.home.testData);
         },

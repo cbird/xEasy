@@ -20,42 +20,48 @@
     </style>
 </head>
 <body>
-    <div class="test-area home" data-xe="ctrl.home">
+    <div class="test-area home" data-xe="ctrl->home">
         <h4>Home controller</h4>
         <div>
-            <button data-xe="click.handleClick">HandleClick</button>
+            <button data-xe="click->handleClick">HandleClick</button>
         </div>
         <div>
-            <input type="text" placeholder="write something" data-xe="model.testData;keyup.handleKeyup">
+            <input type="text" placeholder="write something" data-xe="model->testData;keyup->handleKeyup">
         </div>
         <div>
-            <b data-xe="touchstart.handleTouch;model.testData"></b> <input type="text" placeholder="" data-xe="model.testData">
+            <b data-xe="touchstart->handleTouch;model->testData"></b> <input type="text" placeholder="" data-xe="model->testData">
         </div>
         <div>
-            <input type="checkbox" data-xe="model.testBool"/><span data-xe="model.testBool"></span>
+            <input type="checkbox" data-xe="model->testBool"/><span data-xe="model->testBool"></span>
         </div>
-        <div data-xe="show.testBool">
-            <select data-xe="model.testData">
+        <div data-xe="show->testBool">
+            <select data-xe="model->testData">
                 <option value="hello">hello</option>
                 <option value="world">world</option>
-                <option data-xe="model.testData.text" value="variable"></option>
+                <option data-xe="model->testData->text" value="variable"></option>
             </select>
         </div>
+        <br/>
+        <br/>
+        <div data-xe="css->cssObject">
+            Background color (<span data-xe="model->cssObject.background"></span>): <input type="text" data-xe="model->cssObject.background"><br/>
+            Font color (<span data-xe="model->cssObject.color"></span>): <input type="text" data-xe="model->cssObject.color">
+        </div>
     </div>
-    <div class="test-area user" data-xe="ctrl.user">
+    <div class="test-area user" data-xe="ctrl->user">
         <h4>User controller</h4>
         <div>
-            <input type="text" placeholder="blur" data-xe="blur.handleBlur;model.testData">
-            <input type="text" placeholder="focus" data-xe="focus.handleFocus">
+            <input type="text" placeholder="blur" data-xe="blur->handleBlur;model->testData">
+            <input type="text" placeholder="focus" data-xe="focus->handleFocus">
         </div>
         <div>
-            <button xe="click.login">Login</button>
+            <button xe="click->login">Login</button>
         </div>
         <div>
-            <b data-xe="model.testData"></b> <button data-xe="click.logout">Logout</button>
+            <b data-xe="model->testData"></b> <button data-xe="click->logout">Logout</button>
         </div>
     </div>
-    <script src="../dist/xEasy-0.0.1/xEasy.min.js"></script>
+    <script src="../dist/xEasy-0.0.1/xEasy.js"></script>
     <script src="controllers.js"></script>
 </body>
 </html>
