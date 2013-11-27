@@ -1,7 +1,5 @@
-(function(window, xe){
-    'use strict';
-
-    xe.domParser = function (children, parent, ctrl) {
+var domParser = (function() {
+    var parse = function (children, parent, ctrl) {
         var segments, handlers, action, val, bindingName, binder;
 
         for (var i = 0, iLength = children.length; i < iLength; i++) {
@@ -18,6 +16,7 @@
                             if(segments[0] === 'ctrl') {
                                 ctrl = xe.ctrl[segments[1]];
                                 ctrl.name = segments[1];
+                                xe.ctrl.installTo(ctrl);
                             }
                             else if (ctrl) {
                                 var bindingActions = {};
@@ -84,10 +83,12 @@
             }
 
             if(children[i].children) {
-                xe.domParser(children[i].children, children[i], ctrl);
+                parse(children[i].children, children[i], ctrl);
             }
         }
     };
 
-    window.xe = xe;
-})(window, window && window.xe ? window.xe : {});
+    return {
+        parse: parse
+    };
+})();

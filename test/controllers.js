@@ -1,35 +1,57 @@
-(function(){
-    xe.ctrl.home = {
-        testData: 'test',
-        testBool: true,
-        cssObject: {
+xe.ctrl.home = (function(){
+    var testData = 'test',
+        testBool = true,
+        cssObject = {
             background: '#fff',
             color: '#888'
-        },
-        handleClick: function() {
+        };
+
+    var handleClick = function() {
             console.log('handleClick clicked!', xe.ctrl.home.testData);
         },
-        handleKeyup: function() {
+        handleKeyup = function() {
             console.log('handleClick keyup!', xe.ctrl.home.testData);
         },
-        handleTouch: function() {
+        handleTouch =function() {
             alert('cant touch this!');
-        }
-    };
+        };
 
-    xe.ctrl.user = {
-        testData: 'test2',
-        login: function() {
+    xe.ctrl.subscribe('user logged in', function(data){
+        console.log('subscribed!', data);
+    });
+
+    return {
+        testData: testData,
+        testBool: testBool,
+        cssObject: cssObject,
+        handleClick: handleClick,
+        handleKeyup: handleKeyup,
+        handleTouch: handleTouch
+    };
+})();
+
+xe.ctrl.user = (function(){
+    var testData = 'test2';
+
+    var login = function() {
             console.log('login clicked!');
+            xe.ctrl.user.publish('user logged in', {someData: 'testing'});
         },
-        logout: function() {
+        logout = function() {
             console.log('logout clicked!');
         },
-        handleBlur: function() {
+        handleBlur = function() {
             console.log('blurred!');
         },
-        handleFocus: function() {
+        handleFocus = function() {
             console.log('focused!');
-        }
+        };
+
+    return {
+        testData: testData,
+        login: login,
+        logout: logout,
+        handleBlur: handleBlur,
+        handleFocus: handleFocus
     };
 })();
