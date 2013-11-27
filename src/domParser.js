@@ -13,71 +13,69 @@
                         for(var k = 0, kLength = handlers.length; k < kLength; k++) {
                             segments = handlers[k].split('->');
 
-                            if(segments.length > 1) { // invalid if less than 2 segments
-                                if(segments[0] === 'ctrl') {
-                                    ctrl = xe.ctrl[segments[1]];
-                                    ctrl.name = segments[1];
+                            if(segments.length < 2) throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments
+
+                            if(segments[0] === 'ctrl') {
+                                ctrl = xe.ctrl[segments[1]];
+                                ctrl.name = segments[1];
+                            }
+                            else if (ctrl) {
+                                var bindingActions = {};
+                                action = segments[0].toLowerCase();
+                                bindingName = ctrl.name + '_' + segments[1].replace('.', '_');
+                                binder = xe.binding.getBinder(ctrl, segments[1]);
+                                val = binder[0][binder[1]];
+
+                                switch(action) {
+
+                                    /* model binding */
+                                    case 'model':
+                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
+
+                                        // set the initial data from the controller
+                                        xe.functions.element.setData(children[i], val, segments[2]);
+                                    break;
+
+                                    /* css manipulation */
+                                    case 'show':
+                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+
+                                        // set the initial value from the controller
+                                        xe.functions.element.setStyle(children[i], 'display', val === false ? 'none' : '');
+                                    break;
+                                    case 'hide':
+                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+
+                                        // set the initial value from the controller
+                                        xe.functions.element.setStyle(children[i], 'display', val === true ? 'none' : '');
+                                    break;
+                                    case 'css':
+                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+
+                                        // set the initial css from the controller
+                                        xe.functions.element.setCss(children[i], val);
+                                    break;
+
+                                    /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp, and some touch events */
+                                    default:
+                                        bindingActions = undefined;
+                                        children[i]['on' + action] = val;
+                                    break;
                                 }
-                                else if (ctrl) {
-                                    var bindingActions = {};
-                                    action = segments[0].toLowerCase();
-                                    bindingName = ctrl.name + '_' + segments[1].replace('.', '_');
-                                    binder = xe.binding.getBinder(ctrl, segments[1]);
-                                    val = binder[0][binder[1]];
 
-                                    switch(action) {
-
-                                        /* model binding */
-                                        case 'model':
-                                            bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
-
-                                            // set the initial data from the controller
-                                            xe.functions.element.setData(children[i], val, segments[2]);
-                                        break;
-
-                                        /* css manipulation */
-                                        case 'show':
-                                            bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
-
-                                            // set the initial value from the controller
-                                            xe.functions.element.setStyle(children[i], 'display', val === false ? 'none' : '');
-                                        break;
-                                        case 'hide':
-                                            bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
-
-                                            // set the initial value from the controller
-                                            xe.functions.element.setStyle(children[i], 'display', val === true ? 'none' : '');
-                                        break;
-                                        case 'css':
-                                            bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
-
-                                            // set the initial css from the controller
-                                            xe.functions.element.setCss(children[i], val);
-                                        break;
-
-                                        /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp, and some touch events */
-                                        default:
-                                            bindingActions = undefined;
-                                            children[i]['on' + action] = val;
-                                        break;
-                                    }
-
-                                    if(bindingActions) {
-                                        // set binding
-                                        xe.binding.set(
-                                            bindingName,
-                                            children[i],
-                                            binder[0],
-                                            binder[1],
-                                            bindingActions
-                                        );
-                                    }
+                                if(bindingActions) {
+                                    // set binding
+                                    xe.binding.set(
+                                        bindingName,
+                                        children[i],
+                                        binder[0],
+                                        binder[1],
+                                        bindingActions
+                                    );
                                 }
-                                else {
-                                    throw 'controller not found for ' + segments[0];
-                                }
-                            } else {
-                                throw 'not enough segments in ' + handlers[k];
+                            }
+                            else {
+                                throw 'controller not found for ' + segments[0];
                             }
                         }
 
