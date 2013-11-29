@@ -1,7 +1,7 @@
 var core = (function () {
 
     // init function
-    var init = function(options) {
+    var init = function() {
         xe.domParser.parse(window.document.children, window.document);
     };
 

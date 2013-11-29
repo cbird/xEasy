@@ -2,7 +2,9 @@
     'use strict';
 
     // make sure xEasy is running in a browser
-    if(!window || !window.document) throw 'No window object found! Make sure xEasy is running in a browser.';
+    if(!window || !window.document) {
+        throw 'No window object found! Make sure xEasy is running in a browser.';
+    }
 
     // load modules
     var xe = {};

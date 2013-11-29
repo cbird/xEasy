@@ -3,20 +3,29 @@ var functions = (function() {
         setData: function (elm, val, target) {
             switch(elm.tagName) {
                 case 'INPUT':
-                    if(elm.type === 'checkbox') {
-                        if(elm.checked !== val) elm.checked = val;
-                        break;
+                    if(elm.type === 'checkbox' && elm.checked !== val) {
+                        elm.checked = val;
+                    } else if (elm.value !== val) {
+                        elm.value = val;
                     }
+                    break;
                 case 'OPTION':
-                    if(target && (target === 'text' || target === 'both')) {
-                        if(elm.innerHTML !== val) elm.innerHTML = val;
-                        if(target === 'text') break;
+                    if(elm.innerHTML !== val && (target === 'text' || target === 'both')) {
+                        elm.innerHTML = val;
                     }
+                    if(elm.value !== val && (!target || target === 'value' || target === 'both')) {
+                        elm.value = val;
+                    }
+                    break;
                 case 'SELECT':
-                    if(elm.value !== val) elm.value = val;
+                    if(elm.value !== val) {
+                        elm.value = val;
+                    }
                     break;
                 default:
-                    if(elm.innerHTML !== val) elm.innerHTML = val;
+                    if(elm.innerHTML !== val) {
+                        elm.innerHTML = val;
+                    }
                     break;
             }
         },

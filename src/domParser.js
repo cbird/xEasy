@@ -11,7 +11,9 @@ var domParser = (function() {
                         for(var k = 0, kLength = handlers.length; k < kLength; k++) {
                             segments = handlers[k].split('->');
 
-                            if(segments.length < 2) throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments
+                            if(segments.length < 2) {
+                                throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments
+                            }
 
                             if(segments[0] === 'ctrl') {
                                 ctrl = xe.ctrl[segments[1]];

@@ -31,6 +31,22 @@ module.exports = function(grunt) {
                 dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.min.js'
             }
         },
+        compress: {
+            main: {
+                options: {
+                    mode: 'gzip'
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: './',
+                        src: ['<%= uglify.dist.dest %>'],
+                        dest: './',
+                        ext: '.gz.js'
+                    }
+                ]
+            }
+        },
         jshint: {
             options: {
                 curly: true,
@@ -41,21 +57,26 @@ module.exports = function(grunt) {
                 noarg: true,
                 sub: true,
                 undef: true,
-                unused: true,
+                unused: false,
                 boss: true,
                 eqnull: true,
                 browser: true,
                 globals: {
                     xe: true,
                     console: true,
-                    alert: true
+                    alert: true,
+                    binding: true,
+                    controllers: true,
+                    core: true,
+                    domParser: true,
+                    functions: true
                 }
             },
             gruntfile: {
                 src: 'Gruntfile.js'
             },
             lib_test: {
-                src: ['lib/**/*.js', 'test/**/*.js']
+                src: ['src/**/*.js', 'test/**/*.js']
             }
         },
         // mocha: {
@@ -78,6 +99,7 @@ module.exports = function(grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-compress');
     //grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -87,7 +109,8 @@ module.exports = function(grunt) {
         'jshint',
         //'mocha',
         'concat',
-        'uglify'
+        'uglify',
+        'compress'
     ]);
 
 };

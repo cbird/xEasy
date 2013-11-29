@@ -15,9 +15,9 @@ var binding = (function(){
                     }
                 }
                 // add new action
-                for(var key in actions) {
-                    if(!entities[name][i].actions[key]) {
-                        entities[name][i].actions[key] = actions[key];
+                for(var k in actions) {
+                    if(!entities[name][i].actions[k]) {
+                        entities[name][i].actions[k] = actions[k];
                     }
                 }
                 return;
