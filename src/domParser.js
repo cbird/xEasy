@@ -86,6 +86,8 @@ var domParser = (function() {
 
             if(children[i].children) {
                 parse(children[i].children, children[i], ctrl);
+            } else {
+                parse(children[i].childNodes, children[i], ctrl);
             }
         }
     };

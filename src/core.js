@@ -2,7 +2,11 @@ var core = (function () {
 
     // init function
     var init = function() {
-        xe.domParser.parse(window.document.children, window.document);
+        if(window.document.children) {
+            xe.domParser.parse(window.document.children, window.document);
+        } else {
+            xe.domParser.parse(window.document.childNodes, window.document);
+        }
     };
 
     return {
