@@ -45,7 +45,7 @@ var binding = (function(){
         // todo: don't notify elements that are the origin of the event, ex. event in elm1 -> obj updates -> pushes to elm1, elm2, elm3
         obj.watch(prop, function(id, oldVal, newVal) {
             for(var key in entities){
-                if(name === key) {
+                if(name.indexOf(key) > -1) {
                     for (var i = 0, length = entities[key].length; i < length; i++) {
                         var option;
 
