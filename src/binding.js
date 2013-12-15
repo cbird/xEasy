@@ -101,13 +101,12 @@ module.exports = (function(){
     };
 
     /**
-     * Used to create a correct hierarchy of the object binding
+     * Used when creating the correct object to bind to
      * @param  {Object} Object used
      * @param  {String} Property on the object
-     * @return {Array}
+     * @return {Object}
      */
     var getBinder = function(obj, prop) {
-        // creates correct object to bind to
         var segments = prop.split('.'),
             binder = [obj, prop];
 
@@ -117,7 +116,11 @@ module.exports = (function(){
             binder[1] = segments[i];
         }
 
-        return binder;
+        return {
+            obj: binder[0],
+            prop: binder[1],
+            val: binder[0][binder[1]]
+        };
     };
 
     return {

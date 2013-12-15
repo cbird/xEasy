@@ -33,7 +33,7 @@ module.exports = (function() {
                                 action = segments[0].toLowerCase();
                                 bindingName = ctrl.name + '_' + segments[1].replace('.', '_');
                                 binder = xe.binding.getBinder(ctrl, segments[1]);
-                                val = binder[0][binder[1]];
+                                val = binder.val;
 
                                 switch(action) {
 
@@ -77,8 +77,8 @@ module.exports = (function() {
                                     xe.binding.set(
                                         bindingName,
                                         children[i],
-                                        binder[0],
-                                        binder[1],
+                                        binder.obj,
+                                        binder.prop,
                                         bindingActions
                                     );
                                 }
