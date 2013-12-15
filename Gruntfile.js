@@ -15,7 +15,7 @@ module.exports = function(grunt) {
         browserify: {
             dist: {
                 files: {
-                    'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js': ['src/*.js']
+                    'dist/<%= pkg.name %>.js': ['src/*.js']
                 }
             }
         },
@@ -25,8 +25,8 @@ module.exports = function(grunt) {
                 stripBanners: true
             },
             dist: {
-                src: ['dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js'],
-                dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js'
+                src: ['dist/<%= pkg.name %>.js'],
+                dest: 'dist/<%= pkg.name %>.js'
             }
         },
         uglify: {
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: '<%= concat.dist.dest %>',
-                dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.min.js'
+                dest: 'dist/<%= pkg.name %>.min.js'
             }
         },
         compress: {
