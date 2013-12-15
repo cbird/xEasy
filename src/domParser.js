@@ -1,4 +1,4 @@
-var domParser = (function() {
+module.exports = (function() {
     var parse = function (children, parent, ctrl) {
         var segments, handlers, action, val, bindingName, binder;
 
@@ -95,4 +95,4 @@ var domParser = (function() {
     return {
         parse: parse
     };
-})();
+}());

@@ -1,4 +1,4 @@
-var controllers = (function(){
+module.exports = (function(){
     // Storage for topics that can be broadcast or listened to
     var topics = {};
 
@@ -41,4 +41,4 @@ var controllers = (function(){
             obj.publish = publish;
         }
     };
-})();
+}());

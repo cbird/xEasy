@@ -1,4 +1,4 @@
-var functions = (function() {
+module.exports = (function() {
     var element = {
         setData: function (elm, val, target) {
             switch(elm.tagName) {
@@ -49,4 +49,4 @@ var functions = (function() {
     return {
         element: element
     };
- })();
+ }());

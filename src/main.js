@@ -8,11 +8,11 @@
 
     // load modules
     var xe = {};
-    xe.functions = functions;
-    xe.domParser = domParser;
-    xe.init = core.init;
-    xe.binding = binding;
-    xe.ctrl = controllers;
+    xe.functions = require('./functions');
+    xe.domParser = require('./domParser');
+    xe.init = require('./core').init;
+    xe.binding = require('./binding');
+    xe.ctrl = require('./controllers');
 
     // when all is loaded, wire up the controllers
     window.onload = function() {
@@ -20,4 +20,4 @@
     };
 
     window.xe = xe;
-})(window);
+}(window));

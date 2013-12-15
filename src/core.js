@@ -1,4 +1,4 @@
-var core = (function () {
+module.exports = (function () {
 
     // init function
     var init = function() {
@@ -13,4 +13,4 @@ var core = (function () {
         init: init
     };
 
-})();
+}());

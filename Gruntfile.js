@@ -10,15 +10,22 @@ module.exports = function(grunt) {
         '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
-        '* Thanks to:\n*\t<%= pkg.thanks.join("\\n*\\t") %> */\n',
+        '* Thanks to:\n*\t<%= pkg.thanks.join("\\n*\\t") %> */\n\n',
         // Task configuration.
+        browserify: {
+            dist: {
+                files: {
+                    'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js': ['src/*.js']
+                }
+            }
+        },
         concat: {
             options: {
                 banner: '<%= banner %>',
                 stripBanners: true
             },
             dist: {
-                src: ['src/*'],
+                src: ['dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js'],
                 dest: 'dist/<%= pkg.name %>-<%= pkg.version %>/<%= pkg.name %>.js'
             }
         },
@@ -57,7 +64,7 @@ module.exports = function(grunt) {
                 noarg: true,
                 sub: true,
                 undef: true,
-                unused: false,
+                unused: true,
                 boss: true,
                 eqnull: true,
                 browser: true,
@@ -65,11 +72,8 @@ module.exports = function(grunt) {
                     xe: true,
                     console: true,
                     alert: true,
-                    binding: true,
-                    controllers: true,
-                    core: true,
-                    domParser: true,
-                    functions: true
+                    module: true,
+                    require: true
                 }
             },
             gruntfile: {
@@ -103,10 +107,12 @@ module.exports = function(grunt) {
     //grunt.loadNpmTasks('grunt-mocha');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-browserify');
 
     // Default task.
     grunt.registerTask('default', [
         'jshint',
+        'browserify',
         //'mocha',
         'concat',
         'uglify',

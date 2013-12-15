@@ -1,4 +1,4 @@
-var binding = (function(){
+module.exports = (function(){
 
     var entities = {};
 
@@ -106,4 +106,4 @@ var binding = (function(){
         remove: remove,
         getBinder: getBinder
     };
-})();
+}());
