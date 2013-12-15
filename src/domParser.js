@@ -1,4 +1,12 @@
 module.exports = (function() {
+
+    /**
+     * Used when parsing though th DOM
+     * @param  {Array} Underlying children in a DOM element
+     * @param  {Object} A DOM element
+     * @param  {Object} Controller used in the scope
+     * @return {Object}
+     */
     var parse = function (children, parent, ctrl) {
         var segments, handlers, action, val, bindingName, binder;
 
@@ -90,6 +98,8 @@ module.exports = (function() {
                 parse(children[i].childNodes, children[i], ctrl);
             }
         }
+
+        return this;
     };
 
     return {

@@ -2,6 +2,14 @@ module.exports = (function(){
 
     var entities = {};
 
+    /**
+     * Used when initializing the two-way binding
+     * @param {String} Name of the binding
+     * @param {Object} DOM element to bind to
+     * @param {Object} Object to bind to
+     * @param {String} Name of the property on the object to bind to
+     * @param {Object} Map of actions used in the binding
+     */
     var set = function(name, elm, obj, prop, actions) {
         entities[name] = entities[name] ? entities[name] : [];
 
@@ -82,10 +90,22 @@ module.exports = (function(){
         });
     };
 
+    /**
+     * Used when removing a binding
+     * @param  {String} Name of the binding to delete
+     * @return {Object}
+     */
     var remove = function(name) {
         delete entities[name];
+        return this;
     };
 
+    /**
+     * Used to create a correct hierarchy of the object binding
+     * @param  {Object} Object used
+     * @param  {String} Property on the object
+     * @return {Array}
+     */
     var getBinder = function(obj, prop) {
         // creates correct object to bind to
         var segments = prop.split('.'),

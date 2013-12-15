@@ -1,35 +1,41 @@
-module.exports = (function(){
-    // Storage for topics that can be broadcast or listened to
+module.exports = (function() {
     var topics = {};
 
-    // Subscribe to a topic, supply a callback to be executed
-    // when that topic is broadcast to
-    var subscribe = function( topic, fn ){
-
-        if ( !topics[topic] ){
+    /**
+     * Subscribe to an event
+     * @param  {String}   Name of the event
+     * @param  {Function} Function called when event is raised
+     * @return {Object}
+     */
+    var subscribe = function(topic, cb) {
+        if (!topics[topic]){
           topics[topic] = [];
         }
 
-        topics[topic].push( { context: this, callback: fn } );
+        topics[topic].push({
+            context: this,
+            callback: cb
+        });
 
         return this;
     };
 
-    // Publish/broadcast an event to the rest of the application
-    var publish = function( topic ){
-
-        var args;
-
-        if ( !topics[topic] ){
+    /**
+     * Publish/broadcast an event to other controllers
+     * @param  {String} Name of the event
+     * @return {Object}
+     */
+    var publish = function(topic) {
+        if (!topics[topic]){
           return false;
         }
 
-        args = Array.prototype.slice.call( arguments, 1 );
-        for ( var i = 0, l = topics[topic].length; i < l; i++ ) {
-
-            var subscription = topics[topic][i];
-            subscription.callback.apply( subscription.context, args );
+        var args = Array.prototype.slice.call(arguments, 1), sub;
+        for (var i = 0, l = topics[topic].length; i < l; i++) {
+            sub = topics[topic][i];
+            sub.callback.apply(sub.context, args);
         }
+
         return this;
     };
 
