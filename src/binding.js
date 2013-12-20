@@ -38,6 +38,11 @@ module.exports = (function(){
                 xe.functions.element.addEventListener(elm, 'change', function(event) {
                     obj[prop] = event.target.checked;
                 });
+            } else if(elm.type === 'radio') {
+                xe.functions.element.addEventListener(elm, 'click', function(event) {
+                    obj[prop] = event.target.value;
+                });
+                elm.name = prop;
             } else if(elm.tagName === 'SELECT') {
                 xe.functions.element.addEventListener(elm, 'change', function(event) {
                     obj[prop] = event.target.value;

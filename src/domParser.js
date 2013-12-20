@@ -45,6 +45,14 @@ module.exports = (function() {
                                         xe.functions.element.setData(children[i], val, segments[2]);
                                     break;
 
+                                    /* radio buttons */
+                                    case 'radio':
+                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
+
+                                        // set the initial data from the controller
+                                        children[i].checked = children[i].value === val;
+                                    break;
+
                                     /* css manipulation */
                                     case 'show':
                                         bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';

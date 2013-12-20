@@ -4,7 +4,8 @@ xe.ctrl.home = (function(){
         cssObject = {
             background: '#fff',
             color: '#888'
-        };
+        },
+        radioData = 'yes';
 
     var handleClick = function() {
             console.log('handleClick clicked!', xe.ctrl.home.testData);
@@ -12,8 +13,11 @@ xe.ctrl.home = (function(){
         handleKeyup = function() {
             console.log('handleClick keyup!', xe.ctrl.home.testData);
         },
-        handleTouch =function() {
+        handleTouch = function() {
             alert('cant touch this!');
+        },
+        printRadioData = function() {
+            console.log('radioData', xe.ctrl.home.radioData);
         };
 
     xe.ctrl.subscribe('user logged in', function(data){
@@ -23,10 +27,12 @@ xe.ctrl.home = (function(){
     return {
         testData: testData,
         testBool: testBool,
+        radioData: radioData,
         cssObject: cssObject,
         handleClick: handleClick,
         handleKeyup: handleKeyup,
-        handleTouch: handleTouch
+        handleTouch: handleTouch,
+        printRadioData: printRadioData
     };
 })();
 
