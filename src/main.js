@@ -6,6 +6,10 @@
         throw 'No window object found! Make sure xEasy is running in a browser.';
     }
 
+    // load polyfills
+    require('./polyfills');
+    window.document.on = Element.prototype.on;
+
     // load modules
     var xe = {};
     xe.functions = require('./functions');
@@ -15,9 +19,9 @@
     xe.ctrl = require('./controllers');
 
     // when all is loaded, wire up the controllers
-    window.document.addEventListener("DOMContentLoaded", function() {
+    window.document.on('DOMContentLoaded', function() {
         xe.init();
-    }, false);
+    });
 
     window.xe = xe;
 }(window));
