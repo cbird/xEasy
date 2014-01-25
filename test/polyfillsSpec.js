@@ -1,9 +1,9 @@
-describe('plugins', function(){
-    var _plugins;
+describe('polyfills', function(){
+    var _polyfills;
 
     beforeEach(function(){
-        _plugins = undefined;
-        _plugins = require('../src/plugins');
+        _polyfills = undefined;
+        _polyfills = require('../src/polyfills');
     });
 
     describe('#watch()', function(){
@@ -38,7 +38,7 @@ describe('plugins', function(){
             };
 
             assert.doesNotThrow(function(){
-                var fn = function(id, oldVal, newVal) {
+                var fn = function() {
                     throw 'value changed';
                 };
                 obj.watch('val', fn);
