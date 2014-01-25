@@ -64,7 +64,7 @@ module.exports = (function(){
 
                         // action: data binding
                         if(entities[key][i].actions.hasOwnProperty('model')) {
-                            option = entities[key][i].actions['model'];
+                            option = entities[key][i].actions.model;
                             xe.functions.element.setData(entities[key][i].elm, newVal, option);
                         }
 
