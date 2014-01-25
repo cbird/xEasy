@@ -1,6 +1,14 @@
 #xEasy
 
-AngularJS inspired framework with the goal of being small and easy to use
+A MVVM framework with the goals of:
+* Being easy to use
+* Leaving a small footprint
+* Not depending on other frameworks
+
+Inspired by AngularJS and with some familiarities from jQuery.
+
+##Changelog
+Can be found [here](https://github.com/cbird/xEasy/wiki/Changelog "Go to changelog")
 
 ##Building xEasy
 Download and install [Node.js](http://nodejs.org/)
