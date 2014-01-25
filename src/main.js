@@ -1,4 +1,4 @@
-(function (window) {
+(function(window) {
     'use strict';
 
     // make sure xEasy is running in a browser
@@ -15,9 +15,9 @@
     xe.ctrl = require('./controllers');
 
     // when all is loaded, wire up the controllers
-    window.onload = function() {
+    window.document.addEventListener("DOMContentLoaded", function() {
         xe.init();
-    };
+    }, false);
 
     window.xe = xe;
 }(window));
