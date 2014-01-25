@@ -103,31 +103,19 @@ module.exports = function(grunt) {
                     ui: 'bdd',
                     reporter: 'html-cov',
                     quiet: true,
-                    //filter: '/foo/foo1/',
                     captureFile: './coverage.html'
                 }
-            }
-        },
-        'watch': {
-            gruntfile: {
-                files: '<%= jshint.gruntfile.src %>',
-                tasks: ['jshint:gruntfile']
-            },
-            lib_test: {
-                files: '<%= jshint.lib_test.src %>',
-                tasks: ['jshint:lib_test', 'qunit']
             }
         }
     });
 
     // These plugins provide necessary tasks.
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-mocha-chai-sinon');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-browserify');
-    // grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     // Testing
     grunt.registerTask('test', [
@@ -137,7 +125,6 @@ module.exports = function(grunt) {
     // Default
     grunt.registerTask('default', [
         'jshint',
-        'mocha-chai-sinon',
         'browserify',
         'concat',
         'uglify',
