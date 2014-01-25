@@ -10,6 +10,11 @@ Fetch grunt from the package manager by running:
 > npm install -g grunt-cli
 ```
 
+Install the dependencies:
+```
+> npm install
+```
+
 Then run the following to build:
 ```
 > grunt
