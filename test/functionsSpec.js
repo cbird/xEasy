@@ -95,33 +95,5 @@ describe('functions', function(){
                 assert.equal(elm.style.color, css.color, 'color is set');
             });
         });
-        describe('#addEventListener()', function(){
-            it('should add an event listener', function(){
-                var elm = {
-                    addEventListener: function(ev, cb){
-                        elm[ev] = cb;
-                    }
-                };
-                var cb = function(){
-
-                };
-
-                _functions.element.addEventListener(elm, 'input', cb);
-                assert.equal(elm.input, cb, 'event is set');
-            });
-            it('should add an event listener (internet explorer)', function(){
-                var elm = {
-                    attachEvent: function(ev, cb){
-                        elm[ev] = cb;
-                    }
-                };
-                var cb = function(){
-
-                };
-
-                _functions.element.addEventListener(elm, 'input', cb);
-                assert.equal(elm.onpropertychange, cb, 'event is set');
-            });
-        });
     });
 });

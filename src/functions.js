@@ -56,20 +56,6 @@ module.exports = (function() {
             for(var name in css) {
                 elm.style[name] = css[name];
             }
-        },
-
-        /**
-         * Used when binding a listener to elements
-         * @param {Object}   DOM element to bind to
-         * @param {String}   Name of the event
-         * @param {Function} Function to be called when event is raised
-         */
-        addEventListener: function(elm, ev, cb) {
-            if (elm.addEventListener) {
-                elm.addEventListener(ev, cb, false);
-            } else if (elm.attachEvent) {
-                elm.attachEvent(ev === 'input' ? 'onpropertychange': ev, cb);
-            }
         }
     };
 

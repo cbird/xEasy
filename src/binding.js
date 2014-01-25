@@ -35,20 +35,20 @@ module.exports = (function(){
         // bind changes in DOM to controller
         if(typeof obj[prop] !== 'object') {
             if(elm.type === 'checkbox') {
-                xe.functions.element.addEventListener(elm, 'change', function(event) {
+                elm.on('change', function(event) {
                     obj[prop] = event.target.checked;
                 });
             } else if(elm.type === 'radio') {
-                xe.functions.element.addEventListener(elm, 'click', function(event) {
+                elm.on('click', function(event) {
                     obj[prop] = event.target.value;
                 });
                 elm.name = prop;
             } else if(elm.tagName === 'SELECT') {
-                xe.functions.element.addEventListener(elm, 'change', function(event) {
+                elm.on('change', function(event) {
                     obj[prop] = event.target.value;
                 });
             } else {
-                xe.functions.element.addEventListener(elm, 'input', function(event) {
+                elm.on('input', function(event) {
                     obj[prop] = event.target.value;
                 });
             }
