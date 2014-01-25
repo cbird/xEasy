@@ -173,3 +173,4 @@ main-built.js
 *.sublime-workspace
 .project
 node_modules/*
+coverage.html

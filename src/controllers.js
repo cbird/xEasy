@@ -1,5 +1,5 @@
 module.exports = (function() {
-    var topics = {};
+    var _events = {};
 
     /**
      * Subscribe to an event
@@ -7,12 +7,12 @@ module.exports = (function() {
      * @param  {Function} Function called when event is raised
      * @return {Object}
      */
-    var subscribe = function(topic, cb) {
-        if (!topics[topic]){
-          topics[topic] = [];
+    var subscribe = function(name, cb) {
+        if (!_events[name]){
+            _events[name] = [];
         }
 
-        topics[topic].push({
+        _events[name].push({
             context: this,
             callback: cb
         });
@@ -25,14 +25,14 @@ module.exports = (function() {
      * @param  {String} Name of the event
      * @return {Object}
      */
-    var publish = function(topic) {
-        if (!topics[topic]){
-          return false;
+    var publish = function(name) {
+        if (!_events[name]){
+            return false;
         }
 
         var args = Array.prototype.slice.call(arguments, 1), sub;
-        for (var i = 0, l = topics[topic].length; i < l; i++) {
-            sub = topics[topic][i];
+        for (var i = 0, l = _events[name].length; i < l; i++) {
+            sub = _events[name][i];
             sub.callback.apply(sub.context, args);
         }
 
@@ -40,6 +40,7 @@ module.exports = (function() {
     };
 
     return {
+        events: _events,
         publish: publish,
         subscribe: subscribe,
         installTo: function(obj) {

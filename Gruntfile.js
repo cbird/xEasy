@@ -3,23 +3,25 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+
         // Metadata.
-        pkg: grunt.file.readJSON('package.json'),
-        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+        'pkg': grunt.file.readJSON('package.json'),
+        'banner': '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
         '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %>\n' +
         '* Thanks to:\n*\t<%= pkg.thanks.join("\\n*\\t") %> */\n\n',
+
         // Task configuration.
-        browserify: {
+        'browserify': {
             dist: {
                 files: {
                     'dist/<%= pkg.name %>.js': ['src/*.js']
                 }
             }
         },
-        concat: {
+        'concat': {
             options: {
                 banner: '<%= banner %>',
                 stripBanners: true
@@ -29,7 +31,7 @@ module.exports = function(grunt) {
                 dest: 'dist/<%= pkg.name %>.js'
             }
         },
-        uglify: {
+        'uglify': {
             options: {
                 banner: '<%= banner %>'
             },
@@ -38,7 +40,7 @@ module.exports = function(grunt) {
                 dest: 'dist/<%= pkg.name %>.min.js'
             }
         },
-        compress: {
+        'compress': {
             main: {
                 options: {
                     mode: 'gzip'
@@ -54,7 +56,7 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        jshint: {
+        'jshint': {
             options: {
                 curly: true,
                 eqeqeq: true,
@@ -73,7 +75,11 @@ module.exports = function(grunt) {
                     console: true,
                     alert: true,
                     module: true,
-                    require: true
+                    require: true,
+                    describe: true,
+                    it: true,
+                    beforeEach: true,
+                    assert: true
                 }
             },
             gruntfile: {
@@ -83,12 +89,26 @@ module.exports = function(grunt) {
                 src: ['src/**/*.js', 'test/**/*.js']
             }
         },
-        // mocha: {
-        //     test: {
-        //         src: ['test/**/*.html'],
-        //     },
-        // },
-        watch: {
+        'mocha-chai-sinon': {
+            build: {
+                src: ['test/**/*.js'],
+                options: {
+                    ui: 'bdd',
+                    reporter: 'spec'
+                }
+            },
+            coverage: {
+                src: ['test/**/*.js'],
+                options: {
+                    ui: 'bdd',
+                    reporter: 'html-cov',
+                    quiet: true,
+                    //filter: '/foo/foo1/',
+                    captureFile: './coverage.html'
+                }
+            }
+        },
+        'watch': {
             gruntfile: {
                 files: '<%= jshint.gruntfile.src %>',
                 tasks: ['jshint:gruntfile']
@@ -104,16 +124,21 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-compress');
-    //grunt.loadNpmTasks('grunt-mocha');
+    grunt.loadNpmTasks('grunt-mocha-chai-sinon');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browserify');
+    // grunt.loadNpmTasks('grunt-contrib-watch');
 
-    // Default task.
+    // Testing
+    grunt.registerTask('test', [
+        'mocha-chai-sinon'
+    ]);
+
+    // Default
     grunt.registerTask('default', [
         'jshint',
+        'mocha-chai-sinon',
         'browserify',
-        //'mocha',
         'concat',
         'uglify',
         'compress'
