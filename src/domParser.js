@@ -113,5 +113,4 @@ module.exports = (function() {
     return {
         parse: parse
     };
-
 }());

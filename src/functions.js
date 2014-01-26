@@ -64,5 +64,4 @@ module.exports = (function() {
     return {
         element: element
     };
-
  }());

@@ -1,4 +1,4 @@
-module.exports = (function () {
+module.exports = (function() {
 
     /**
      * Initializes xEasy
@@ -17,5 +17,4 @@ module.exports = (function () {
     return {
         init: init
     };
-
 }());
