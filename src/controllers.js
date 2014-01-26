@@ -1,4 +1,5 @@
 module.exports = (function() {
+
     var _events = {};
 
     /**
@@ -48,4 +49,5 @@ module.exports = (function() {
             obj.publish = publish;
         }
     };
+
 }());

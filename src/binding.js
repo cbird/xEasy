@@ -1,6 +1,6 @@
-module.exports = (function(){
+module.exports = (function() {
 
-    var entities = {};
+    var _entities = {};
 
     /**
      * Used when initializing the two-way binding
@@ -11,21 +11,21 @@ module.exports = (function(){
      * @param {Object} Map of actions used in the binding
      */
     var set = function(name, elm, obj, prop, actions) {
-        entities[name] = entities[name] ? entities[name] : [];
+        _entities[name] = _entities[name] ? _entities[name] : [];
 
         // update existing entity
-        for (var i = 0, length = entities[name].length; i < length; i++){
-            if(entities[name][i].elm === elm) {
+        for (var i = 0, length = _entities[name].length; i < length; i++){
+            if(_entities[name][i].elm === elm) {
                 // update action
-                for(var key in entities[name][i].actions) {
+                for(var key in _entities[name][i].actions) {
                     if(actions[key]) {
-                        entities[name][i].actions[key] = actions[key];
+                        _entities[name][i].actions[key] = actions[key];
                     }
                 }
                 // add new action
                 for(var k in actions) {
-                    if(!entities[name][i].actions[k]) {
-                        entities[name][i].actions[k] = actions[k];
+                    if(!_entities[name][i].actions[k]) {
+                        _entities[name][i].actions[k] = actions[k];
                     }
                 }
                 return;
@@ -57,30 +57,30 @@ module.exports = (function(){
         // binds changes in controller to DOM.
         // todo: don't notify elements that are the origin of the event, ex. event in elm1 -> obj updates -> pushes to elm1, elm2, elm3
         obj.watch(prop, function(id, oldVal, newVal) {
-            for(var key in entities){
+            for(var key in _entities){
                 if(name.indexOf(key) > -1) {
-                    for (var i = 0, length = entities[key].length; i < length; i++) {
+                    for (var i = 0, length = _entities[key].length; i < length; i++) {
                         var option;
 
                         // action: data binding
-                        if(entities[key][i].actions.hasOwnProperty('model')) {
-                            option = entities[key][i].actions.model;
-                            xe.functions.element.setData(entities[key][i].elm, newVal, option);
+                        if(_entities[key][i].actions.hasOwnProperty('model')) {
+                            option = _entities[key][i].actions.model;
+                            xe.functions.element.setData(_entities[key][i].elm, newVal, option);
                         }
 
                         // action: show element
-                        if(entities[key][i].actions.hasOwnProperty('show')) {
-                            xe.functions.element.setStyle(entities[key][i].elm, 'display', newVal === false ? 'none' : '');
+                        if(_entities[key][i].actions.hasOwnProperty('show')) {
+                            xe.functions.element.setStyle(_entities[key][i].elm, 'display', newVal === false ? 'none' : '');
                         }
 
                         // action: hide element
-                        if(entities[key][i].actions.hasOwnProperty('hide')) {
-                            xe.functions.element.setStyle(entities[key][i].elm, 'display', newVal === true ? 'none' : '');
+                        if(_entities[key][i].actions.hasOwnProperty('hide')) {
+                            xe.functions.element.setStyle(_entities[key][i].elm, 'display', newVal === true ? 'none' : '');
                         }
 
                         // action: css object
-                        if(entities[key][i].actions.hasOwnProperty('css')) {
-                            xe.functions.element.setCss(entities[key][i].elm, obj);
+                        if(_entities[key][i].actions.hasOwnProperty('css')) {
+                            xe.functions.element.setCss(_entities[key][i].elm, obj);
                         }
 
                     }
@@ -89,7 +89,7 @@ module.exports = (function(){
         });
 
         // add new entity
-        entities[name].push({
+        _entities[name].push({
             elm: elm,
             actions: actions
         });
@@ -101,7 +101,7 @@ module.exports = (function(){
      * @return {Object}
      */
     var remove = function(name) {
-        delete entities[name];
+        delete _entities[name];
         return this;
     };
 
@@ -129,7 +129,7 @@ module.exports = (function(){
     };
 
     return {
-        entities: entities,
+        entities: _entities,
         set: set,
         remove: remove,
         getBinder: getBinder

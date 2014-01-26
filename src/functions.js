@@ -1,4 +1,5 @@
 module.exports = (function() {
+
     var element = {
 
         /**
@@ -57,9 +58,11 @@ module.exports = (function() {
                 elm.style[name] = css[name];
             }
         }
+
     };
 
     return {
         element: element
     };
+
  }());

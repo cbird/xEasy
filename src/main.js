@@ -6,8 +6,11 @@
         throw 'No window object found! Make sure xEasy is running in a browser.';
     }
 
-    // load polyfills
+    // load polyfills and shortcuts
     require('./polyfills');
+    require('./shortcuts');
+
+    // add shortcut to window.document
     window.document.on = Element.prototype.on;
 
     // load modules
@@ -24,4 +27,5 @@
     });
 
     window.xe = xe;
+
 }(window));
