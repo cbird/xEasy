@@ -24,13 +24,14 @@ describe('controllers', function(){
         it('should return false if event is not found', function(){
             assert.equal(_controllers.publish('eventNotFound'), false, 'it returns false');
         });
-        it('should fire the callback of a topic', function(){
-            assert.throw(function() {
-                _controllers.subscribe('shouldFireCallback', function(){
-                    throw 'callback was called';
-                });
-                _controllers.publish('shouldFireCallback');
-            }, 'callback was called');
+        it('should fire the callback of an event', function(){
+            var callback = sinon.spy();
+
+            _controllers.subscribe('shouldFireCallback', callback);
+            _controllers.publish('shouldFireCallback');
+
+            assert.isTrue(callback.called, 'callback has been triggerd');
+            assert.isTrue(callback.calledOnce, 'callback has been triggered once');
         });
     });
 

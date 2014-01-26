@@ -15,15 +15,13 @@ describe('polyfills', function(){
                 val: 1
             };
 
-            assert.throw(function(){
-                obj.watch('val', function(id, oldVal, newVal) {
-                    if(oldVal !== newVal){
-                        throw id + ': ' + oldVal + ' -> ' + newVal;
-                    }
-                });
-                obj.val = 2;
-            }, 'val: 1 -> 2');
+            var callback = sinon.spy();
 
+            obj.watch('val', callback);
+            obj.val = 2;
+
+            assert.isTrue(callback.called, 'callback has been triggerd');
+            assert.isTrue(callback.calledOnce, 'callback has been triggered once');
         });
     });
 
@@ -37,14 +35,13 @@ describe('polyfills', function(){
                 val: 1
             };
 
-            assert.doesNotThrow(function(){
-                var fn = function() {
-                    throw 'value changed';
-                };
-                obj.watch('val', fn);
-                obj.unwatch('val');
-                obj.val = 2;
-            }, 'did not trigger watch');
+            var callback = sinon.spy();
+
+            obj.watch('val', callback);
+            obj.unwatch('val');
+            obj.val = 2;
+
+            assert.isFalse(callback.called, 'callback has not been triggerd');
         });
     });
 });

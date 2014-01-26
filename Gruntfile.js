@@ -79,7 +79,8 @@ module.exports = function(grunt) {
                     describe: true,
                     it: true,
                     beforeEach: true,
-                    assert: true
+                    assert: true,
+                    sinon: true
                 }
             },
             gruntfile: {
