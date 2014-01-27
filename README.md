@@ -1,4 +1,4 @@
-#xEasy
+#xEasy [![Build Status](https://travis-ci.org/cbird/xEasy.png?branch=master)](https://travis-ci.org/cbird/xEasy)
 
 A MVVM framework with the goals of:
 * Being easy to use
