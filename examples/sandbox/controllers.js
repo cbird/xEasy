@@ -1,11 +1,11 @@
-xe.ctrl.home = (function(){
-    var testData = 'test',
-        testBool = true,
-        cssObject = {
+xe.ctrl.home = (function() {
+    var _testData = 'test',
+        _testBool = true,
+        _cssObject = {
             background: '#fff',
             color: '#888'
         },
-        radioData = 'yes';
+        _radioData = 'yes';
 
     var handleClick = function() {
             console.log('handleClick clicked!', xe.ctrl.home.testData);
@@ -20,15 +20,15 @@ xe.ctrl.home = (function(){
             console.log('radioData', xe.ctrl.home.radioData);
         };
 
-    xe.ctrl.subscribe('user logged in', function(data){
-        console.log('subscribed!', data);
+    xe.ctrl.subscribe('user logged in', function(data) {
+        console.log('ctrl.home subscribed!', data);
     });
 
     return {
-        testData: testData,
-        testBool: testBool,
-        radioData: radioData,
-        cssObject: cssObject,
+        testData: _testData,
+        testBool: _testBool,
+        radioData: _radioData,
+        cssObject: _cssObject,
         handleClick: handleClick,
         handleKeyup: handleKeyup,
         handleTouch: handleTouch,
@@ -36,12 +36,12 @@ xe.ctrl.home = (function(){
     };
 })();
 
-xe.ctrl.user = (function(){
-    var testData = 'test2';
+xe.ctrl.user = (function() {
+    var _testData = 'test2';
 
     var login = function() {
             console.log('login clicked!');
-            xe.ctrl.user.publish('user logged in', {someData: 'testing'});
+            xe.ctrl.user.publish('user logged in', { someData: 'testing' });
         },
         logout = function() {
             console.log('logout clicked!');
@@ -53,8 +53,12 @@ xe.ctrl.user = (function(){
             console.log('focused!');
         };
 
+    xe.ctrl.subscribe('user logged in', function(data) {
+        console.log('ctrl.user subscribed!', data);
+    });
+
     return {
-        testData: testData,
+        testData: _testData,
         login: login,
         logout: logout,
         handleBlur: handleBlur,
