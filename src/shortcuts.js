@@ -13,9 +13,22 @@ module.exports = (function() {
             Element.prototype.on = function(ev, cb) {
                 this.attachEvent(ev === 'input' ? 'onpropertychange': ev, cb);
             };
-        }
-        else {
+        } else {
             throw 'neither addEventListener nor attachEvent was found';
+        }
+    }
+
+    if(!Element.prototype.off) {
+        if (Element.prototype.removeEventListener) {
+            Element.prototype.off = function(ev, cb) {
+                this.removeEventListener(ev, cb);
+            };
+        } else if (Element.prototype.detachEvent) {
+            Element.prototype.off = function(ev, cb) {
+                this.detachEvent(ev === 'input' ? 'onpropertychange': ev, cb);
+            };
+        } else {
+            throw 'neither removeEventListener nor detachEvent was found';
         }
     }
 
