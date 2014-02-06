@@ -34,6 +34,9 @@ module.exports = (function() {
 
     if(!Element.prototype.hasClass) {
         Element.prototype.hasClass = function(cls) {
+            if (this.classList) {
+                return this.classList.contains(cls);
+            }
             return this.className && new RegExp('(\\s|^)' + cls + '(\\s|$)').test(this.className);
         };
     }
