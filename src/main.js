@@ -18,13 +18,16 @@
     xe.config = require('./config');
     xe.functions = require('./functions');
     xe.domParser = require('./domParser');
-    xe.init = require('./core').init;
     xe.binding = require('./binding');
     xe.ctrl = require('./controllers');
 
     // when all is loaded, wire up the controllers
     window.document.on('DOMContentLoaded', function() {
-        xe.init();
+        if(window.document.children) {
+            xe.domParser.parse(window.document.children, window.document);
+        } else {
+            xe.domParser.parse(window.document.childNodes, window.document);
+        }
     });
 
     window.xe = xe;
