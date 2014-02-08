@@ -17,7 +17,7 @@ module.exports = (function() {
                         handlers = children[i].attributes[j].value.split(';');
 
                         for(var k = 0, kLength = handlers.length; k < kLength; k++) {
-                            segments = handlers[k].split('->');
+                            segments = handlers[k].split(xe.config.separator);
 
                             if(segments.length < 2) {
                                 throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments

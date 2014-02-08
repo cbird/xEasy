@@ -15,6 +15,7 @@
 
     // load modules
     var xe = {};
+    xe.config = require('./config');
     xe.functions = require('./functions');
     xe.domParser = require('./domParser');
     xe.init = require('./core').init;
