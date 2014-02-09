@@ -5,31 +5,15 @@ module.exports = (function() {
     }
 
     if(!Element.prototype.on) {
-        if(Element.prototype.addEventListener) {
-            Element.prototype.on = function(ev, cb) {
-                this.addEventListener(ev, cb, false);
-            };
-        } else if(Element.prototype.attachEvent) {
-            Element.prototype.on = function(ev, cb) {
-                this.attachEvent(ev === 'input' ? 'onpropertychange': ev, cb);
-            };
-        } else {
-            throw 'neither addEventListener nor attachEvent was found';
-        }
+        Element.prototype.on = function(ev, cb) {
+            this.addEventListener(ev, cb, false);
+        };
     }
 
     if(!Element.prototype.off) {
-        if(Element.prototype.removeEventListener) {
-            Element.prototype.off = function(ev, cb) {
-                this.removeEventListener(ev, cb);
-            };
-        } else if(Element.prototype.detachEvent) {
-            Element.prototype.off = function(ev, cb) {
-                this.detachEvent(ev === 'input' ? 'onpropertychange': ev, cb);
-            };
-        } else {
-            throw 'neither removeEventListener nor detachEvent was found';
-        }
+        Element.prototype.off = function(ev, cb) {
+            this.removeEventListener(ev, cb);
+        };
     }
 
     if(!Element.prototype.hasClass) {

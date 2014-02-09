@@ -7,8 +7,8 @@ module.exports = (function() {
             _form.root.addClass('dirty');
             event.target.addClass('dirty');
 
-            invalid = (event.target.attributes.hasOwnProperty('required') && !val) ||
-                (event.target.attributes.hasOwnProperty('pattern') && !event.target.value.match(new RegExp(event.target.attributes['pattern'].value))) ||
+            invalid = (typeof event.target.attributes['required'] !== 'undefined' && !val) ||
+                (typeof event.target.attributes['pattern'] !== 'undefined' && !event.target.value.match(new RegExp(event.target.attributes['pattern'].value))) ||
                 (event.target.type === 'email' && !xe.config.regEx.email.test(event.target.value)) ||
                 (event.target.type === 'tel' && !xe.config.regEx.phone.test(event.target.value)) ||
                 (event.target.type === 'number' && !xe.config.regEx.number.test(event.target.value));
@@ -24,7 +24,7 @@ module.exports = (function() {
             }
 
             for (var i = 0, iLength = _form.fields.length; i < iLength; i++) {
-                _form.isValid = _form.isValid && (_form.fields[i].hasClass('valid') || !_form.fields[i].attributes.hasOwnProperty('required') && (!_form.fields[i].value || !_form.fields[i].checked));
+                _form.isValid = _form.isValid && (_form.fields[i].hasClass('valid') || typeof _form.fields[i].attributes['required'] === 'undefined' && (!_form.fields[i].value || !_form.fields[i].checked));
             }
 
             if(_form.isValid && !_form.root.hasClass('valid')) {
@@ -36,7 +36,7 @@ module.exports = (function() {
             }
 
             for (var j = 0, jLength = _form.triggers.length; j < jLength; j++) {
-                if(_form.isValid && _form.triggers[j].hasOwnProperty('disabled')) {
+                if(_form.isValid && typeof _form.triggers[j]['disabled'] !== 'undefined') {
                     _form.triggers[j].removeAttribute('disabled');
                 } else if(!_form.isValid) {
                     _form.triggers[j].setAttribute('disabled', 'disabled');
