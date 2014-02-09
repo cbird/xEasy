@@ -11,46 +11,42 @@ module.exports = (function() {
      *
      * Modified by Carl Ripa, setter is now working as expected
      */
-    if (!Object.prototype.watch) {
-        Object.defineProperty(Object.prototype, 'watch', {
-            enumerable: false,
-            configurable: true,
-            writable: false,
-            value: function (prop, handler) {
-                var actual = this[prop],
-                    old = actual,
-                    getter = function () {
-                        return actual;
-                    },
-                    setter = function (val) {
-                        old = actual;
-                        actual = val;
-                        return handler.call(this, prop, old, val);
-                    };
+    Object.defineProperty(Object.prototype, 'watch', {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: function(prop, handler) {
+            var actual = this[prop],
+                old = actual,
+                getter = function () {
+                    return actual;
+                },
+                setter = function (val) {
+                    old = actual;
+                    actual = val;
+                    return handler.call(this, prop, old, val);
+                };
 
-                if (delete this[prop]) {
-                    Object.defineProperty(this, prop, {
-                        get: getter,
-                        set: setter,
-                        enumerable: true,
-                        configurable: true
-                    });
-                }
+            if (delete this[prop]) {
+                Object.defineProperty(this, prop, {
+                    get: getter,
+                    set: setter,
+                    enumerable: true,
+                    configurable: true
+                });
             }
-        });
-    }
+        }
+    });
 
-    if (!Object.prototype.unwatch) {
-        Object.defineProperty(Object.prototype, 'unwatch', {
-            enumerable: false,
-            configurable: true,
-            writable: false,
-            value: function (prop) {
-                var val = this[prop];
-                delete this[prop];
-                this[prop] = val;
-            }
-        });
-    }
+    Object.defineProperty(Object.prototype, 'unwatch', {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: function (prop) {
+            var val = this[prop];
+            delete this[prop];
+            this[prop] = val;
+        }
+    });
 
 })();
