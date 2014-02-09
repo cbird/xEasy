@@ -7,8 +7,8 @@ module.exports = (function() {
      * @param  {Object} Form used in the scope
      * @return {Object}
      */
-        var segments, handlers, action, val, bindingName, binder;
     var parse = function(children, ctrl, form) {
+        var segments, handlers, action, val, bindingName, binder, ctrlFac;
 
         for(var i = 0, iLength = children.length; i < iLength; i++) {
             handlers = children[i].attributes['data-xe'] ? children[i].attributes['data-xe'].value : undefined;
@@ -27,9 +27,11 @@ module.exports = (function() {
                     action = segments[0];
 
                     if(action === 'ctrl') {
-                        ctrl = xe.ctrl[segments[1]];
-                        ctrl.name = segments[1];
+                        ctrl = {};
+                        ctrlFac = xe.ctrl[segments[1]];
                         xe.ctrl.$installTo(ctrl);
+                        ctrl.name = segments[1];
+                        ctrlFac.call(this, ctrl);
                     }
 
                     if(ctrl) {
