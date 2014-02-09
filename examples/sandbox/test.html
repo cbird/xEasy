@@ -17,6 +17,20 @@
         .user {
 
         }
+        form.valid {
+            border: solid 1px green;
+            background: none;
+        }
+        form.invalid {
+            border: solid 1px red;
+            background: none;
+        }
+        .valid {
+            background: green;
+        }
+        .invalid {
+            background: red;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +70,43 @@
     </div>
     <div class="test-area user" data-xe="ctrl->user">
         <h4>User controller</h4>
+        <form data-xe="form->login->validate">
+            <h5>Login form</h5>
+            <div>
+                <input type="text" placeholder="not required">
+            </div>
+            <div>
+                <input type="text" placeholder="minimum 3 chars" required pattern=".{3,}">
+            </div>
+            <div>
+                <input type="password" placeholder="password" required>
+            </div>
+            <div>
+                <input type="email" placeholder="email" required>
+            </div>
+            <div>
+                <input type="tel" placeholder="tel" required>
+            </div>
+            <div>
+                <input type="number" placeholder="number" required>
+            </div>
+            <div>
+                <select required>
+                    <option value="">Pick a value</option>
+                    <option value="hello">hello</option>
+                    <option value="world">world</option>
+                </select>
+            </div>
+            <div>
+                <input type="checkbox" required> Required
+            </div>
+            <div>
+                <input type="checkbox"> Not required
+            </div>
+            <div>
+                <input type="submit" value="login">
+            </div>
+        </form>
         <div>
             <input type="text" placeholder="blur" data-xe="blur->handleBlur;model->testData">
             <input type="text" placeholder="focus" data-xe="focus->handleFocus">

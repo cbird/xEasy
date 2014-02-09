@@ -20,6 +20,7 @@
     xe.domParser = require('./domParser');
     xe.binding = require('./binding');
     xe.ctrl = require('./controllers');
+    xe.validation = require('./validation');
 
     // when all is loaded, wire up the controllers
     window.document.on('DOMContentLoaded', function() {

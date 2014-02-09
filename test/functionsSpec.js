@@ -13,7 +13,7 @@ describe('functions', function() {
 
             it('should set value to input', function() {
                 var elm = {
-                    tagName: 'INPUT'
+                    nodeName: 'INPUT'
                 };
 
                 _functions.element.setData(elm, 'test');
@@ -23,7 +23,7 @@ describe('functions', function() {
 
             it('should check checkbox', function() {
                 var elm = {
-                    tagName: 'INPUT',
+                    nodeName: 'INPUT',
                     type: 'checkbox'
                 };
 
@@ -34,7 +34,7 @@ describe('functions', function() {
 
             it('should set text to option', function() {
                 var elm = {
-                    tagName: 'OPTION'
+                    nodeName: 'OPTION'
                 };
 
                 _functions.element.setData(elm, 'test', 'text');
@@ -44,7 +44,7 @@ describe('functions', function() {
 
             it('should set text and value to option', function() {
                 var elm = {
-                    tagName: 'OPTION'
+                    nodeName: 'OPTION'
                 };
 
                 _functions.element.setData(elm, 'test', 'both');
@@ -55,7 +55,7 @@ describe('functions', function() {
 
             it('should set value to selectbox', function() {
                 var elm = {
-                    tagName: 'SELECT'
+                    nodeName: 'SELECT'
                 };
 
                 _functions.element.setData(elm, 'test');
@@ -65,7 +65,7 @@ describe('functions', function() {
 
             it('should set innerHTML', function() {
                 var elm = {
-                    tagName: 'DIV'
+                    nodeName: 'DIV'
                 };
 
                 _functions.element.setData(elm, 'test');
@@ -79,7 +79,7 @@ describe('functions', function() {
 
             it('should set value to given property', function() {
                 var elm = {
-                    tagName: 'INPUT',
+                    nodeName: 'INPUT',
                     style: {}
                 };
 
@@ -94,7 +94,7 @@ describe('functions', function() {
 
             it('should set css object to element', function() {
                 var elm = {
-                    tagName: 'INPUT',
+                    nodeName: 'INPUT',
                     style: {}
                 };
                 var css = {

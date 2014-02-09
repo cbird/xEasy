@@ -41,10 +41,10 @@ module.exports = (function() {
     };
 
     return {
-        events: _events,
-        publish: publish,
-        subscribe: subscribe,
-        installTo: function(obj) {
+        $events: _events,
+        $publish: publish,
+        $subscribe: subscribe,
+        $installTo: function(obj) {
             obj.subscribe = subscribe;
             obj.publish = publish;
         }

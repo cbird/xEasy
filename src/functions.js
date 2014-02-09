@@ -8,12 +8,12 @@ module.exports = (function() {
          * @param {Object} Value to be set
          * @param {String} Where to bind data in the element: text = innerHTML, value = value, both = innerHTML + value
          */
-        setData: function (elm, val, target) {
-            switch(elm.tagName) {
+        setData: function(elm, val, target) {
+            switch(elm.nodeName) {
                 case 'INPUT':
                     if(elm.type === 'checkbox' && elm.checked !== val) {
                         elm.checked = val;
-                    } else if (elm.value !== val) {
+                    } else if(elm.value !== val) {
                         elm.value = val;
                     }
                     break;
@@ -58,7 +58,6 @@ module.exports = (function() {
                 elm.style[name] = css[name];
             }
         }
-
     };
 
     return {

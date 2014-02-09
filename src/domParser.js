@@ -5,105 +5,122 @@ module.exports = (function() {
      * @param  {Array} Underlying children in a DOM element
      * @param  {Object} A DOM element
      * @param  {Object} Controller used in the scope
+     * @param  {Object} Form used in the scope
      * @return {Object}
      */
-    var parse = function (children, parent, ctrl) {
+    var parse = function(children, parent, ctrl, form) {
         var segments, handlers, action, val, bindingName, binder;
 
-        for (var i = 0, iLength = children.length; i < iLength; i++) {
-            if(children[i].attributes) {
-                for (var j = 0, jLength = children[i].attributes.length; j < jLength; j++) {
-                    if(children[i].attributes[j].name.indexOf('xe') === 0 || children[i].attributes[j].name.indexOf('data-xe') === 0) {
-                        handlers = children[i].attributes[j].value.split(';');
+        for(var i = 0, iLength = children.length; i < iLength; i++) {
+            handlers = children[i].attributes['data-xe'] ? children[i].attributes['data-xe'].value : undefined;
+            handlers = children[i].attributes['xe'] ? children[i].attributes['xe'].value : handlers;
 
-                        for(var k = 0, kLength = handlers.length; k < kLength; k++) {
-                            segments = handlers[k].split(xe.config.separator);
+            if(handlers) {
+                handlers = handlers.split(';');
 
-                            if(segments.length < 2) {
-                                throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments
-                            }
+                for(var k = 0, kLength = handlers.length; k < kLength; k++) {
+                    segments = handlers[k].split(xe.config.separator);
 
-                            if(segments[0] === 'ctrl') {
-                                ctrl = xe.ctrl[segments[1]];
-                                ctrl.name = segments[1];
-                                xe.ctrl.installTo(ctrl);
-                            }
-                            else if (ctrl) {
-                                var bindingActions = {};
-                                action = segments[0].toLowerCase();
-                                bindingName = ctrl.name + '_' + segments[1].replace('.', '_');
-                                binder = xe.binding.getBinder(ctrl, segments[1]);
-                                val = binder.val;
+                    if(segments.length < 2) {
+                        throw 'not enough segments in ' + handlers[k]; // invalid if less than 2 segments
+                    }
 
-                                switch(action) {
+                    action = segments[0];
 
-                                    /* model binding */
-                                    case 'model':
-                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
+                    if(action === 'ctrl') {
+                        ctrl = xe.ctrl[segments[1]];
+                        ctrl.name = segments[1];
+                        xe.ctrl.$installTo(ctrl);
+                    }
 
-                                        // set the initial data from the controller
-                                        xe.functions.element.setData(children[i], val, segments[2]);
-                                    break;
+                    if(ctrl) {
+                        var bindingActions = {};
+                        bindingName = ctrl.name + '_' + segments[1].replace('.', '_');
+                        binder = xe.binding.getBinder(ctrl, segments[1]);
+                        val = binder.val;
 
-                                    /* radio buttons */
-                                    case 'radio':
-                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
+                        switch(action) {
+                            /* form validation */
+                            case 'form':
+                                var validate = segments[2] === 'validate';
+                                ctrl.form = {};
+                                form = ctrl.form[segments[1]] = {
+                                    validate: validate,
+                                    isValid: !validate,
+                                    isDirty: false,
+                                    root: children[i]
+                                };
+                            break;
 
-                                        // set the initial data from the controller
-                                        children[i].checked = children[i].value === val;
-                                    break;
+                            /* model binding */
+                            case 'model':
+                                bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
 
-                                    /* css manipulation */
-                                    case 'show':
-                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+                                // set the initial data from the controller
+                                xe.functions.element.setData(children[i], val, segments[2]);
+                            break;
 
-                                        // set the initial value from the controller
-                                        xe.functions.element.setStyle(children[i], 'display', val === false ? 'none' : '');
-                                    break;
-                                    case 'hide':
-                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+                            /* radio buttons */
+                            case 'radio':
+                                bindingActions[action] = bindingActions[action] ? bindingActions[action] : segments[2];
 
-                                        // set the initial value from the controller
-                                        xe.functions.element.setStyle(children[i], 'display', val === true ? 'none' : '');
-                                    break;
-                                    case 'css':
-                                        bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+                                // set the initial data from the controller
+                                children[i].checked = children[i].value === val;
+                            break;
 
-                                        // set the initial css from the controller
-                                        xe.functions.element.setCss(children[i], val);
-                                    break;
+                            /* css manipulation */
+                            case 'show':
+                                bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
 
-                                    /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp, and some touch events */
-                                    default:
-                                        bindingActions = undefined;
-                                        children[i]['on' + action] = val;
-                                    break;
-                                }
+                                // set the initial value from the controller
+                                xe.functions.element.setStyle(children[i], 'display', val === false ? 'none' : '');
+                            break;
+                            case 'hide':
+                                bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
 
-                                if(bindingActions) {
-                                    // set binding
-                                    xe.binding.set(
-                                        bindingName,
-                                        children[i],
-                                        binder.obj,
-                                        binder.prop,
-                                        bindingActions
-                                    );
-                                }
-                            }
-                            else {
-                                throw 'controller not found for ' + segments[0];
-                            }
+                                // set the initial value from the controller
+                                xe.functions.element.setStyle(children[i], 'display', val === true ? 'none' : '');
+                            break;
+                            case 'css':
+                                bindingActions[action] = bindingActions[action] ? bindingActions[action] : '';
+
+                                // set the initial css from the controller
+                                xe.functions.element.setCss(children[i], val);
+                            break;
+
+                            /* events according to http://www.w3schools.com/jsref/dom_obj_event.asp, and some touch events */
+                            default:
+                                bindingActions = undefined;
+                                children[i]['on' + action] = val;
+                            break;
                         }
 
+                        if(bindingActions) {
+                            // set binding
+                            xe.binding.set(
+                                bindingName,
+                                children[i],
+                                binder.obj,
+                                binder.prop,
+                                bindingActions
+                            );
+                        }
+                    }
+                    else {
+                        throw 'controller not found for ' + segments[0];
                     }
                 }
             }
 
+            /* form validation */
+            if(form && form.root !== children[i] && form.root === children[i].form) {
+                xe.validation.bind(children[i], form);
+            }
+
             if(children[i].children) {
-                parse(children[i].children, children[i], ctrl);
+                parse(children[i].children, children[i], ctrl, form);
             } else {
-                parse(children[i].childNodes, children[i], ctrl);
+                parse(children[i].childNodes, children[i], ctrl, form);
             }
         }
 

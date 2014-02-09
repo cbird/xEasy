@@ -14,7 +14,7 @@ module.exports = (function() {
         _entities[name] = _entities[name] ? _entities[name] : [];
 
         // update existing entity
-        for (var i = 0, length = _entities[name].length; i < length; i++){
+        for(var i = 0, length = _entities[name].length; i < length; i++){
             if(_entities[name][i].elm === elm) {
                 // update action
                 for(var key in _entities[name][i].actions) {
@@ -43,7 +43,7 @@ module.exports = (function() {
                     obj[prop] = event.target.value;
                 });
                 elm.name = prop;
-            } else if(elm.tagName === 'SELECT') {
+            } else if(elm.nodeName === 'SELECT') {
                 elm.on('change', function(event) {
                     obj[prop] = event.target.value;
                 });
@@ -59,7 +59,7 @@ module.exports = (function() {
         obj.watch(prop, function(id, oldVal, newVal) {
             for(var key in _entities){
                 if(name.indexOf(key) > -1) {
-                    for (var i = 0, length = _entities[key].length; i < length; i++) {
+                    for(var i = 0, length = _entities[key].length; i < length; i++) {
                         var option;
 
                         // action: data binding
@@ -82,7 +82,6 @@ module.exports = (function() {
                         if(_entities[key][i].actions.hasOwnProperty('css')) {
                             xe.functions.element.setCss(_entities[key][i].elm, obj);
                         }
-
                     }
                 }
             }

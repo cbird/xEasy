@@ -20,7 +20,7 @@ xe.ctrl.home = (function() {
             console.log('radioData', xe.ctrl.home.radioData);
         };
 
-    xe.ctrl.subscribe('user logged in', function(data) {
+    xe.ctrl.$subscribe('user logged in', function(data) {
         console.log('ctrl.home subscribed!', data);
     });
 
@@ -41,7 +41,7 @@ xe.ctrl.user = (function() {
 
     var login = function() {
             console.log('login clicked!');
-            xe.ctrl.user.publish('user logged in', { someData: 'testing' });
+            xe.ctrl.user.$publish('user logged in', { someData: 'testing' });
         },
         logout = function() {
             console.log('logout clicked!');
@@ -53,7 +53,7 @@ xe.ctrl.user = (function() {
             console.log('focused!');
         };
 
-    xe.ctrl.subscribe('user logged in', function(data) {
+    xe.ctrl.$subscribe('user logged in', function(data) {
         console.log('ctrl.user subscribed!', data);
     });
 
