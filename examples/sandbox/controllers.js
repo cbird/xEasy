@@ -6,6 +6,7 @@ xe.ctrl.home = function(home) {
         color: '#888'
     };
     home.radioData = 'yes';
+    home.someData = '';
 
     home.handleClick = function() {
         console.log('handleClick clicked!', home.testData);
@@ -22,6 +23,8 @@ xe.ctrl.home = function(home) {
 
     home.$subscribe('user logged in', function(data) {
         console.log('ctrl.home subscribed!', data);
+        home.someData = data.someData;
+        console.log('someData', home.someData);
     });
 };
 
