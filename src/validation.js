@@ -1,7 +1,6 @@
 module.exports = (function() {
     var _form,
         validate = function(event) {
-            console.log('validate', event);
             var invalid = true, val = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
 
             _form.isDirty = true;
