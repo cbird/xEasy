@@ -45,8 +45,8 @@ module.exports = (function() {
         $publish: publish,
         $subscribe: subscribe,
         $installTo: function(obj) {
-            obj.subscribe = subscribe;
-            obj.publish = publish;
+            obj.$subscribe = subscribe;
+            obj.$publish = publish;
         }
     };
 }());
