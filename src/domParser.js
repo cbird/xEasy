@@ -3,13 +3,12 @@ module.exports = (function() {
     /**
      * Used when parsing though th DOM
      * @param  {Array} Underlying children in a DOM element
-     * @param  {Object} A DOM element
      * @param  {Object} Controller used in the scope
      * @param  {Object} Form used in the scope
      * @return {Object}
      */
-    var parse = function(children, parent, ctrl, form) {
         var segments, handlers, action, val, bindingName, binder;
+    var parse = function(children, ctrl, form) {
 
         for(var i = 0, iLength = children.length; i < iLength; i++) {
             handlers = children[i].attributes['data-xe'] ? children[i].attributes['data-xe'].value : undefined;
@@ -118,9 +117,9 @@ module.exports = (function() {
             }
 
             if(children[i].children) {
-                parse(children[i].children, children[i], ctrl, form);
+                parse(children[i].children, ctrl, form);
             } else {
-                parse(children[i].childNodes, children[i], ctrl, form);
+                parse(children[i].childNodes, ctrl, form);
             }
         }
 
