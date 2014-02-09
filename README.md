@@ -7,6 +7,12 @@ A MVVM framework with the goals of:
 
 Inspired by AngularJS and with some familiarities from jQuery.
 
+##Browsers
+Tested in the following browsers:
+* Google Chrome 30+
+* Mozilla Firefox 25+
+* Apple Safari 7+
+
 ##Changelog
 Can be found [here](https://github.com/cbird/xEasy/wiki/Changelog "Go to changelog")
 
