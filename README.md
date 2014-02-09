@@ -12,6 +12,8 @@ Tested in the following browsers:
 * Google Chrome 30+
 * Mozilla Firefox 25+
 * Apple Safari 7+
+* Opera 19+
+* Internet Explorer 10+
 
 ##Changelog
 Can be found [here](https://github.com/cbird/xEasy/wiki/Changelog "Go to changelog")
