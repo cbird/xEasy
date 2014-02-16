@@ -87,9 +87,6 @@ module.exports = function(grunt) {
             },
             gruntfile: {
                 src: 'Gruntfile.js'
-            },
-            lib_test: {
-                src: ['src/**/*.js', 'test/**/*.js']
             }
         },
         'mocha-chai-sinon': {
