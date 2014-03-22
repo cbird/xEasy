@@ -1,41 +1,43 @@
-describe('controllers', function() {
+/*global describe: false, beforeEach: false, require: false, it: false, assert: false, sinon: false*/
+describe('controllers', function () {
+    'use strict';
+    
+    var controllers;
 
-    var _controllers;
-
-    beforeEach(function() {
-        _controllers = undefined;
-        _controllers = require('../src/controllers');
+    beforeEach(function () {
+        controllers = undefined;
+        controllers = require('../src/controllers');
     });
 
-    describe('#subscribe()', function() {
+    describe('#subscribe()', function () {
 
-        it('should return module controllers', function() {
-            assert.equal(_controllers.$subscribe('shouldReturn', function(){}), _controllers, 'it returns controllers');
+        it('should return module controllers', function () {
+            assert.equal(controllers.$subscribe('shouldReturn', function () {}), controllers, 'it returns controllers');
         });
 
-        it('should populate events', function() {
-            _controllers.$subscribe('shouldPopulate', function(){});
-            assert.notEqual(_controllers.$events, {}, 'there are events');
+        it('should populate events', function () {
+            controllers.$subscribe('shouldPopulate', function () {});
+            assert.notEqual(controllers.$events, {}, 'there are events');
         });
 
     });
 
-    describe('#publish()', function() {
+    describe('#publish()', function () {
 
-        it('should return module controllers if event is found', function() {
-            _controllers.$subscribe('eventFound', function(){});
-            assert.equal(_controllers.$publish('eventFound'), _controllers, 'it returns controllers');
+        it('should return module controllers if event is found', function () {
+            controllers.$subscribe('eventFound', function () {});
+            assert.equal(controllers.$publish('eventFound'), controllers, 'it returns controllers');
         });
 
-        it('should return false if event is not found', function() {
-            assert.equal(_controllers.$publish('eventNotFound'), false, 'it returns false');
+        it('should return false if event is not found', function () {
+            assert.equal(controllers.$publish('eventNotFound'), false, 'it returns false');
         });
 
-        it('should fire the callback of an event', function() {
+        it('should fire the callback of an event', function () {
             var callback = sinon.spy();
 
-            _controllers.$subscribe('shouldFireCallback', callback);
-            _controllers.$publish('shouldFireCallback');
+            controllers.$subscribe('shouldFireCallback', callback);
+            controllers.$publish('shouldFireCallback');
 
             assert.isTrue(callback.called, 'callback has been triggerd');
             assert.isTrue(callback.calledOnce, 'callback has been triggered once');
@@ -43,15 +45,15 @@ describe('controllers', function() {
 
     });
 
-    describe('#installTo()', function() {
+    describe('#installTo()', function () {
 
-        it('should install subscribe() and publish() onto an object', function() {
+        it('should install subscribe() and publish() onto an object', function () {
             var obj = {};
 
-            _controllers.$installTo(obj);
+            controllers.$installTo(obj);
 
-            assert.isDefined(_controllers.$subscribe, 'subscribe is bound to object');
-            assert.isDefined(_controllers.$publish, 'publish is bound to object');
+            assert.isDefined(controllers.$subscribe, 'subscribe is bound to object');
+            assert.isDefined(controllers.$publish, 'publish is bound to object');
         });
 
     });

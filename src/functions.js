@@ -1,5 +1,7 @@
-module.exports = (function() {
-
+/*global module: false*/
+module.exports = (function () {
+    'use strict';
+    
     var element = {
 
         /**
@@ -8,33 +10,33 @@ module.exports = (function() {
          * @param {Object} Value to be set
          * @param {String} Where to bind data in the element: text = innerHTML, value = value, both = innerHTML + value
          */
-        setData: function(elm, val, target) {
-            switch(elm.nodeName) {
-                case 'INPUT':
-                    if(elm.type === 'checkbox' && elm.checked !== val) {
-                        elm.checked = val;
-                    } else if(elm.value !== val) {
-                        elm.value = val;
-                    }
-                    break;
-                case 'OPTION':
-                    if(elm.innerHTML !== val && (target === 'text' || target === 'both')) {
-                        elm.innerHTML = val;
-                    }
-                    if(elm.value !== val && (!target || target === 'value' || target === 'both')) {
-                        elm.value = val;
-                    }
-                    break;
-                case 'SELECT':
-                    if(elm.value !== val) {
-                        elm.value = val;
-                    }
-                    break;
-                default:
-                    if(elm.innerHTML !== val) {
-                        elm.innerHTML = val;
-                    }
-                    break;
+        setData: function (elm, val, target) {
+            switch (elm.nodeName) {
+            case 'INPUT':
+                if (elm.type === 'checkbox' && elm.checked !== val) {
+                    elm.checked = val;
+                } else if (elm.value !== val) {
+                    elm.value = val;
+                }
+                break;
+            case 'OPTION':
+                if (elm.innerHTML !== val && (target === 'text' || target === 'both')) {
+                    elm.innerHTML = val;
+                }
+                if (elm.value !== val && (!target || target === 'value' || target === 'both')) {
+                    elm.value = val;
+                }
+                break;
+            case 'SELECT':
+                if (elm.value !== val) {
+                    elm.value = val;
+                }
+                break;
+            default:
+                if (elm.innerHTML !== val) {
+                    elm.innerHTML = val;
+                }
+                break;
             }
         },
 
@@ -44,8 +46,8 @@ module.exports = (function() {
          * @param {String} Name of the style property
          * @param {String} Value of the style
          */
-        setStyle: function(elm, name, val) {
-            elm.style[name] = val ? val : '';
+        setStyle: function (elm, name, val) {
+            elm.style[name] = val || '';
         },
 
         /**
@@ -53,9 +55,12 @@ module.exports = (function() {
          * @param {Object} DOM element to set CSS to
          * @param {Object} The CSS object containing all the styles
          */
-        setCss: function(elm, css) {
-            for(var name in css) {
-                elm.style[name] = css[name];
+        setCss: function (elm, css) {
+            var name;
+            for (name in css) {
+                if (css.hasOwnProperty(name)) {
+                    elm.style[name] = css[name];
+                }
             }
         }
     };
@@ -63,4 +68,4 @@ module.exports = (function() {
     return {
         element: element
     };
- }());
+}());

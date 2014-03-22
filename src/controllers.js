@@ -1,50 +1,52 @@
-module.exports = (function() {
+/*global module: false*/
+module.exports = (function () {
+    'use strict';
+    
+    var events = {},
 
-    var _events = {};
+        /**
+         * Subscribe to an event
+         * @param  {String}   Name of the event
+         * @param  {Function} Function called when event is raised
+         * @return {Object}
+         */
+        subscribe = function (name, cb) {
+            if (!events.hasOwnProperty(name)) {
+                events[name] = [];
+            }
 
-    /**
-     * Subscribe to an event
-     * @param  {String}   Name of the event
-     * @param  {Function} Function called when event is raised
-     * @return {Object}
-     */
-    var subscribe = function(name, cb) {
-        if (!_events[name]){
-            _events[name] = [];
-        }
+            events[name].push({
+                context: this,
+                callback: cb
+            });
 
-        _events[name].push({
-            context: this,
-            callback: cb
-        });
+            return this;
+        },
 
-        return this;
-    };
+        /**
+         * Publish/broadcast an event to other controllers
+         * @param  {String} Name of the event
+         * @return {Object}
+         */
+        publish = function (name) {
+            if (!events.hasOwnProperty(name)) {
+                return false;
+            }
 
-    /**
-     * Publish/broadcast an event to other controllers
-     * @param  {String} Name of the event
-     * @return {Object}
-     */
-    var publish = function(name) {
-        if (!_events[name]){
-            return false;
-        }
+            var args = Array.prototype.slice.call(arguments, 1), sub, i, l;
+            for (i = 0, l = events[name].length; i < l; i += 1) {
+                sub = events[name][i];
+                sub.callback.apply(sub.context, args);
+            }
 
-        var args = Array.prototype.slice.call(arguments, 1), sub;
-        for (var i = 0, l = _events[name].length; i < l; i++) {
-            sub = _events[name][i];
-            sub.callback.apply(sub.context, args);
-        }
-
-        return this;
-    };
+            return this;
+        };
 
     return {
-        $events: _events,
+        $events: events,
         $publish: publish,
         $subscribe: subscribe,
-        $installTo: function(obj) {
+        $installTo: function (obj) {
             obj.$subscribe = subscribe;
             obj.$publish = publish;
         }

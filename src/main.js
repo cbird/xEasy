@@ -1,8 +1,9 @@
-(function(window) {
+/*global require: false, Element: false*/
+(function (window) {
     'use strict';
 
     // make sure xEasy is running in a browser
-    if(!window || !window.document) {
+    if (!window || !window.document) {
         throw 'No window object found! Make sure xEasy is running in a browser.';
     }
 
@@ -23,8 +24,8 @@
     xe.validation = require('./validation');
 
     // when all is loaded, wire up the controllers
-    window.document.on('DOMContentLoaded', function() {
-        if(window.document.children) {
+    window.document.on('DOMContentLoaded', function () {
+        if (window.document.children) {
             xe.domParser.parse(window.document.children);
         } else {
             xe.domParser.parse(window.document.childNodes);

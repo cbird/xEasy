@@ -1,5 +1,7 @@
-module.exports = (function() {
-
+/*global module: false*/
+module.exports = (function () {
+    'use strict';
+    
     /*
      * object.watch polyfill
      *
@@ -15,7 +17,7 @@ module.exports = (function() {
         enumerable: false,
         configurable: true,
         writable: false,
-        value: function(prop, handler) {
+        value: function (prop, handler) {
             var actual = this[prop],
                 old = actual,
                 getter = function () {
@@ -49,4 +51,4 @@ module.exports = (function() {
         }
     });
 
-})();
+}());
