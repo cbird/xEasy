@@ -13,7 +13,7 @@ Tested in the following browsers:
 * Mozilla Firefox 25+
 * Apple Safari 7+
 * Opera 19+
-* Internet Explorer 10+
+* Internet Explorer 9+
 
 ##Changelog
 Can be found [here](https://github.com/cbird/xEasy/wiki/Changelog "Go to changelog")
