@@ -2,7 +2,8 @@
 describe('controllers', function () {
     'use strict';
     
-    var controllers;
+    var controllers,
+        perfCount = 10000;
 
     beforeEach(function () {
         controllers = undefined;
@@ -18,6 +19,22 @@ describe('controllers', function () {
         it('should populate events', function () {
             controllers.$subscribe('shouldPopulate', function () {});
             assert.notEqual(controllers.$events, {}, 'there are events');
+        });
+
+        it('should subscribe ' + perfCount + ' times', function () {
+            var callback = sinon.spy(),
+                obj = {},
+                i;
+            
+            controllers.$installTo(obj);
+            obj.$subscribe('subscribe perfTest', callback);
+            
+            for (i = 0; i < perfCount; i += 1) {
+                controllers.$publish('subscribe perfTest');
+            }
+            
+            assert.isTrue(callback.called, 'callback has been triggerd');
+            assert.equal(callback.callCount, perfCount, 'callback has been triggerd ' + perfCount + ' times');
         });
 
     });
@@ -41,6 +58,23 @@ describe('controllers', function () {
 
             assert.isTrue(callback.called, 'callback has been triggerd');
             assert.isTrue(callback.calledOnce, 'callback has been triggered once');
+        });
+
+        it('should publish to ' + perfCount + ' subscribers', function () {
+            var callback = sinon.spy(),
+                arr = [],
+                i;
+            
+            for (i = 0; i < perfCount; i += 1) {
+                arr[0] = {};
+                controllers.$installTo(arr[0]);
+                arr[0].$subscribe('publish perfTest', callback);
+            }
+            
+            controllers.$publish('publish perfTest');
+
+            assert.isTrue(callback.called, 'callback has been triggerd');
+            assert.equal(callback.callCount, perfCount, 'callback has been triggerd ' + perfCount + ' times');
         });
 
     });
