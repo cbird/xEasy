@@ -9,22 +9,22 @@ xe.ctrl.home = function(home) {
     home.someData = '';
 
     home.handleClick = function() {
-        console.log('handleClick clicked!', home.testData);
+        console.log('handleClick clicked! ' + home.testData);
     };
     home.handleKeyup = function() {
-        console.log('handleClick keyup!', home.testData);
+        console.log('handleClick keyup! ' + home.testData);
     };
     home.handleTouch = function() {
         alert('cant touch this!');
     };
     home.printRadioData = function() {
-        console.log('radioData', home.radioData);
+        console.log('radioData ' + home.radioData);
     };
 
     home.$subscribe('user logged in', function(data) {
-        console.log('ctrl.home subscribed!', data);
+        console.log('ctrl.home subscribed! ' + data);
         home.someData = data.someData;
-        console.log('someData', home.someData);
+        console.log('someData ' + home.someData);
     });
 };
 
@@ -46,6 +46,6 @@ xe.ctrl.user = function(user) {
     };
 
     user.$subscribe('user logged in', function(data) {
-        console.log('ctrl.user subscribed!', data);
+        console.log('ctrl.user subscribed! ' + data);
     });
 };
