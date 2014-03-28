@@ -4,7 +4,13 @@ module.exports = (function () {
     
     var form,
         validate = function (event) {
-            var invalid = true, val = event.target.type === 'checkbox' ? event.target.checked : event.target.value, i, iLength, j, jLength;
+            var invalid = true,
+                type = event.target.attributes['data-type'] && event.target.attributes['data-type'].value ? event.target.attributes['data-type'].value : event.target.type,
+                val = type === 'checkbox' ? event.target.checked : event.target.value,
+                i,
+                iLength,
+                j,
+                jLength;
 
             form.isDirty = true;
             form.root.addClass('dirty');
@@ -12,9 +18,9 @@ module.exports = (function () {
 
             invalid = (typeof event.target.attributes.required !== 'undefined' && !val) ||
                 (typeof event.target.attributes.pattern !== 'undefined' && !event.target.value.match(new RegExp(event.target.attributes.pattern.value))) ||
-                (event.target.type === 'email' && !xe.config.regEx.email.test(event.target.value)) ||
-                (event.target.type === 'tel' && !xe.config.regEx.phone.test(event.target.value)) ||
-                (event.target.type === 'number' && !xe.config.regEx.number.test(event.target.value));
+                (type === 'email' && !xe.config.regEx.email.test(event.target.value)) ||
+                (type === 'tel' && !xe.config.regEx.phone.test(event.target.value)) ||
+                (type === 'number' && !xe.config.regEx.number.test(event.target.value));
 
             form.isValid = !invalid;
 
