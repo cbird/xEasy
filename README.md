@@ -36,7 +36,7 @@ Then run the following to build:
 > grunt
 ```
 
-##Running tests
+## Running tests
 Execute all by using the following:
 
 ```
