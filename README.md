@@ -1,5 +1,5 @@
-#xEasy [![Build Status](https://travis-ci.org/cbird/xEasy.png?branch=master)](https://travis-ci.org/cbird/xEasy)
-
+xEasy [![Build Status](https://travis-ci.org/cbird/xEasy.png?branch=master)](https://travis-ci.org/cbird/xEasy)
+===
 A MVVM framework with the goals of:
 * Being easy to use
 * Leaving a small footprint
@@ -7,7 +7,7 @@ A MVVM framework with the goals of:
 
 Inspired by AngularJS and with some familiarities from jQuery.
 
-##Browsers
+## Browsers
 Tested in the following browsers:
 * Google Chrome 30+
 * Mozilla Firefox 25+
@@ -15,10 +15,10 @@ Tested in the following browsers:
 * Opera 19+
 * Internet Explorer 9+
 
-##Changelog
+## Changelog
 Can be found [here](https://github.com/cbird/xEasy/wiki/Changelog "Go to changelog")
 
-##Building xEasy
+## Building xEasy
 Download and install [Node.js](http://nodejs.org/)
 
 Fetch grunt from the package manager by running:
@@ -43,5 +43,5 @@ Execute all by using the following:
 > grunt test
 ```
 
-##Read more
+## Read more
 [Documentation](https://github.com/cbird/xEasy/wiki/Documentation "Go to documentation")
